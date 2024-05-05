@@ -1,22 +1,10 @@
-import Link from "next/link";
+import Header from "./components/Header";
 
 
 export default function Home() {
   return (
     <main>
-      {/* the header */}
-       <div className="header w-full bg-blue-800 rounded-md">
-            <div className="navbar font-normal text-white text-sm p-8 flex justify-center">
-              <ul className="flex items-center gap-4 ">
-                <li>About Us</li>
-                <li>Services</li>
-                <li>Blog</li>
-                <li>Contact Us</li>
-                <li>Counseling</li>
-                <li className="ml-auto">Get Started</li>
-              </ul>
-            </div>
-       </div>
+        <Header />
 
        {/* the next div */}
        <div className="div-first flex h-96 w-full bg-slate-50 grid-cols-2 p-4 mt-2 gap-2">

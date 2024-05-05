@@ -17,17 +17,23 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: black;
+  padding: 1rem;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.header {
+  height: 500px;
 }
+
+.div-first {
+  height: 490px;
+}
+
+.cognitive-div{
+  height: 1015px;
+}
+
+.relative .box {
+  height: 330px;
+}
+

@@ -1,12 +1,15 @@
+import Footer from "./components/Footer";
 import Header from "./components/Header";
+import ServicesDiv from "./components/ServicesDiv";
 
 
 export default function Home() {
   return (
     <main>
-        <Header />
 
-       {/* the next div */}
+       <Header />
+       
+        {/* the next div */}
        <div className="div-first flex h-96 w-full bg-slate-50 grid-cols-2 p-4 mt-2 gap-2">
           <div className="rounded-md h-full w-1/3">
             <img 
@@ -45,25 +48,8 @@ export default function Home() {
           </div>       
        </div>
 
-        {/* another div */}
-        <div className="h-96 w-full bg-pink-200 rounded-md mt-2">
-            <div className="flex grid-cols-2 text-sm p-8 ">
-              <div className=" h-full w-3/4 p-7 ">
-                  {/* button for accessing services */}
-                  <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-16"> Services</button>
-
-                  <h1 className="font-semibold text-2xl mb-4">Your Student Wellbeing Services <br />
-                   for a Healthy Campus Life</h1>
-                  <p className="text-sm font-normal w-3/5 mb-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem maxime hic 
-                    molestiae odio pariatur praesentium accusamus, delectus voluptates nesciunt reprehenderit 
-                    consequatur doloremque corporis ipsum ipsam ab vero, alias totam sed?</p>
-
-                </div>
-                <div>
-
-                </div>
-            </div>
-       </div>
+      {/* services div */}
+      <ServicesDiv />
 
 
        {/* the cognitive div */}
@@ -127,7 +113,7 @@ export default function Home() {
                       </div>
                   </div>
               </div>
-            </div>
+          </div>
       </div>
 
 
@@ -204,41 +190,8 @@ export default function Home() {
 
 
        {/* footer */}
-       <div className='max-w-[1520px] m-auto px-4 py-2 bg-gray-950'>
-              <div className='py-16 px-4 grid lg:grid-cols-3 gap-4 text-gray-300'>
-                <div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium odio aperiam vero optio dolores ducimus voluptates sunt aspernatur doloremque officia.</p>
-                </div>
-                <div className='lg:col-span-2 flex justify-between'>
-                  <div>
-                    <ul>
-                      <li className='py-2 text-sm'>About Us</li>
-                      <li className='py-2 text-sm'>Services </li>
-                      <li className='py-2 text-sm'>Blog </li>
-                      <li className='py-2 text-sm'>Counselling</li>
-                      <li className='py-2 text-sm'>Contact Us</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <ul>
-                      <li className='py-2 text-sm'>FAQ</li>
-                      <li className='py-2 text-sm'>Support </li>
-                      <li className='py-2 text-sm'>User policy</li>
-                      <li className='py-2 text-sm'>Belgium</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <ul>
-                      <li className='py-2 text-sm'>Phone</li>
-                      <li className='py-2 text-sm'>Email</li>
-                      <li className='py-2 text-sm'>Location</li>
-                      <li className='py-2 text-sm'>Social Media</li>
-                    </ul>
-                  </div>
-                </div>
-              </div> 
-        </div>
-
+       <Footer />
+       
 
     </main>
   )

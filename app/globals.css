@@ -23,17 +23,23 @@ body {
 
 .header {
   height: 500px;
+  /* background-image: url('https://kcc.knust.edu.gh/sites/kcc.knust.edu.gh/files/2023-01/about-kcc.jpg');
+  background-size: cover; */
 }
 
 .div-first {
   height: 490px;
 }
 
-.cognitive-div{
+.cognitive-div {
   height: 1015px;
 }
 
 .relative .box {
   height: 330px;
+}
+
+.teams{
+  height: 1015px;
 }
 

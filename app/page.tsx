@@ -48,13 +48,12 @@ export default function Home() {
           </div>       
        </div>
 
-      {/* services div */}
-      <ServicesDiv />
+
 
 
        {/* the cognitive div */}
        <div className="cognitive-div h-96 w-full bg-slate-50 p-4 mt-2 gap-2 ">
-          <div className="flex grid-cols-3 items-center justify-center gap-12 p-14">
+          {/* <div className="flex grid-cols-3 items-center justify-center gap-12 p-14">
             <div className="one text-xs text-center">
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos, iure ad necessitatibus voluptate 
                 facere doloremque aut? Corrupti ullam voluptate, fugit odio earum quasi sapiente 
@@ -74,7 +73,7 @@ export default function Home() {
                 cupiditate dolor culpa ducimus aliquam quaerat ratione aliquid pariatur odit! Laborum odio 
                 dolore expedita nisi voluptates?</p>
             </div>
-          </div>
+          </div> */}
 
             {/* what we do */}
           <div className="w-full flex flex-col items-center justify-center">
@@ -138,21 +137,7 @@ export default function Home() {
        </div>
 
 
-      {/* tertimonies div */}
-      <div className="h-96 w-full bg-sky-100 rounded-md mt-2 flex flex-col items-center justify-center">
-          <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-10">Testimonies</button>
-          <p className="w-2/3 text-center"> 
-            <b>"</b> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis autem inventore illo itaque eos, neque enim 
-            laboriosam! Reiciendis expedita, cum possimus blanditiis velit ex, perspiciatis, quam accusamus 
-            exercitationem culpa aspernatur. <b>"</b> 
-          </p>
-          
-          <div className="flex flex-row mt-6 gap-3">
-            <div className="w-12 h-12 bg-black rounded-full ml-2"></div>
-            <h1 className="font-normal text-lg">  Grace Yankey <br /> <span className="text-sm">Student</span> </h1>
-          </div>
-          
-      </div>
+  
 
 
        {/* a div on how site works */}

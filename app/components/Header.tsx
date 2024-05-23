@@ -9,7 +9,7 @@ const Header = () => {
             <div className="navbar font-normal text-white text-sm p-8 flex justify-center">
               <ul className="flex items-center gap-4 ">
                 <li> <Link href="./about">About Us</Link> </li>
-                <li>Services</li>
+                <li><Link href="./services">Services</Link> </li>
                 <li>Blog</li>
                 <li>Contact Us</li>
                 <li>Counseling</li>

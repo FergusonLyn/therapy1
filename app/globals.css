@@ -16,9 +16,14 @@
   }
 }
 
+  .button {
+    @apply rounded-[30px] flex justify-center items-center ;
+  }
+
+
 body {
   color: black;
-  padding: 1rem;
+  padding: 2.5rem;
 }
 
 .header {

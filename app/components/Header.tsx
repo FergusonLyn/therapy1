@@ -1,25 +1,74 @@
-import React from 'react'
+"use client"; 
+
+import React, { useState } from 'react';
 import Link from "next/link";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
-       {/* the header */}
-       <div className="header w-full bg-blue-800 rounded-md">
-            <div className="navbar font-normal text-white text-sm p-8 flex justify-center">
-              <ul className="flex items-center gap-4 ">
-                <li> <Link href="./about">About Us</Link> </li>
-                <li>Services</li>
-                <li>Blog</li>
-                <li>Contact Us</li>
-                <li>Counseling</li>
-                <li className="ml-auto">Get Started</li>
-              </ul>
+      <div className="header w-full bg-blue-800 rounded-md">
+        <div className="navbar font-normal text-white text-sm p-4 md:p-8 flex justify-between items-center">
+          {!isOpen && (
+            <div className="text-lg font-bold">
+              <Link href="./">Logo</Link>
             </div>
-       </div>
-      
+          )}
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={toggleMenu}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              )}
+            </svg>
+          </button>
+          <ul
+            className={`md:flex items-center gap-4 ${
+              isOpen ? 'block' : 'hidden'
+            } md:block mt-4 md:mt-0`}
+          >
+            <li className="py-2 md:py-0">
+              <Link href="./">Home</Link>
+            </li>
+            <li className="py-2 md:py-0">
+              <Link href="./about">About Us</Link>
+            </li>
+            <li className="py-2 md:py-0">Services</li>
+            <li className="py-2 md:py-0">Blog</li>
+            <li className="py-2 md:py-0">Contact Us</li>
+            <li className="py-2 md:py-0 md:ml-auto">
+              <Link href="./get-started">Get Started</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

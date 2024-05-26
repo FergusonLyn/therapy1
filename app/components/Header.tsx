@@ -12,6 +12,7 @@ const Header = () => {
 
   return (
     <>
+
       <div className="header w-full bg-blue-800 rounded-md">
         <div className="navbar font-normal text-white text-sm p-4 md:p-8 flex justify-between items-center">
           {!isOpen && (
@@ -55,10 +56,12 @@ const Header = () => {
             <li className="py-2 md:py-0">
               <Link href="./">Home</Link>
             </li>
-            <li className="py-2 md:py-0">
-              <Link href="./about">About Us</Link>
+            <li className="py-2 md:py-0"> 
+              <Link href="./about">About Us</Link> 
             </li>
-            <li className="py-2 md:py-0">Services</li>
+            <li className="py-2 md:py-0">
+              <Link href="./services">Services</Link> 
+            </li>
             <li className="py-2 md:py-0">Blog</li>
             <li className="py-2 md:py-0">Contact Us</li>
             <li className="py-2 md:py-0 md:ml-auto">

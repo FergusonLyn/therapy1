@@ -1,20 +1,18 @@
 "use client"; 
-
 import React, { useState } from 'react';
 import Link from "next/link";
 
-const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const GetStartedHeader = () => {
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+      setIsOpen(!isOpen);
+    };
 
   return (
-    <>
-
-      <div className="header w-full bg-blue-800 rounded-md">
-        <div className="navbar font-normal text-white text-sm p-4 md:p-8 flex justify-between items-center">
+    <div>
+      <div className="navbar w-full bg-blue-800 font-normal text-white text-sm p-4 md:p-8 flex justify-between items-center rounded-md">
           {!isOpen && (
             <div className="text-lg font-bold">
               <Link href="./">Logo</Link>
@@ -69,9 +67,11 @@ const Header = () => {
             </li>
           </ul>
         </div>
-      </div>
-    </>
-  );
-};
+   
 
-export default Header;
+
+    </div>
+  )
+}
+
+export default GetStartedHeader

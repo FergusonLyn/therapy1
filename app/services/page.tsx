@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { url } from "inspector";
+import Link from "next/link";
 
 const Services = () => {
   const servicesItems = [
@@ -53,7 +54,7 @@ const Services = () => {
       <div className="grid grid-cols-3 gap-4 mt-12">
         {servicesItems.map((items, index) => {
           return (
-            <div key={index}>
+            <Link href="./services/services_expanded" key={index}>
               <div className=" h-[280px] rounded-2xl relative">
                 <Image
                   src={items.img}
@@ -69,7 +70,7 @@ const Services = () => {
               <div className="bg-[#f6f6f6] mt-5 rounded-2xl h-24 flex justify-center items-center">
                 <p className="px-4 text-[0.93rem] font-normal ">{items.text}</p>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

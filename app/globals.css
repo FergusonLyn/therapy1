@@ -20,7 +20,9 @@
     @apply rounded-[30px] flex justify-center items-center ;
   }
 
-
+.flexBox {
+  @apply flex justify-center items-center;
+}
 body {
   color: black;
   padding: 2.5rem;
@@ -41,4 +43,5 @@ body {
 .relative .box {
   height: 330px;
 }
+
 

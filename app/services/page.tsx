@@ -3,7 +3,11 @@ import Header from "../components/Header";
 import Image from "next/image";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { url } from "inspector";
+
 import Link from "next/link";
+
+import Footer from "../components/Footer";
+
 
 const Services = () => {
   const servicesItems = [
@@ -74,7 +78,7 @@ const Services = () => {
           );
         })}
       </div>
-      <div className="mt-9 bg-blue-100 relative  rounded-lg">
+      <div className="mt-9 mb-3 bg-blue-100 relative  rounded-lg">
         <div
           className="h-[500px]  bg-center bg-cover bg-no-repeat  rounded-lg"
           style={{ backgroundImage: "url('/services.png')" }}
@@ -91,6 +95,9 @@ const Services = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

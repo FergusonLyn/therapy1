@@ -38,13 +38,13 @@ const RegisterButton = () => {
                     <div className="p-2 mr-4">
                     <IoIosSearch size={36} className="text-blue-600" />
                     </div>
-                    <span className="font-medium">I'm looking for mental <br /> health support</span>
+                    <span className="font-semibold text-sm">I'm looking for mental <br /> health support (Student)</span>
                 </div>
                 <div className="flex items-center justify-center border-blue-600 border-2 bg-white rounded-md text-black p-4  hover:cursor-pointer hover:shadow-md md:w-[400px]">
                     <div className=" p-2 mr-4">
                     <FaRegMessage size={36} className="text-blue-600" />
                     </div>
-                    <span className="font-medium ">I provide mental health <br /> support</span>
+                    <span className="font-semibold text-sm ">I provide mental health <br /> support (Counselor)</span>
                 </div>
                 </div>
             </div>

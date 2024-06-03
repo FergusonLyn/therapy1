@@ -8,12 +8,14 @@ const Password = () => {
         <label htmlFor="" className="">
           Email
         </label>
-        <input className="input" placeholder="Enter your email"/>
+        <input className="input" placeholder="Enter your email" />
 
-        <button className="bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-9 font-bold text-[13px]">
-         Send Password Resest Email
+        <button className="bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-9 text-[13px]">
+          Send Password Resest Email
         </button>
-        <Link href="./login" className="text-center text-xl font-semibold" >Back to login</Link>
+        <Link href="./login" className="text-center text-xl font-semibold">
+          Back to login
+        </Link>
       </div>
     </div>
   );

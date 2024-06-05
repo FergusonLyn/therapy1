@@ -16,10 +16,38 @@
   }
 }
 
-  .button {
-    @apply rounded-[30px] flex justify-center items-center ;
-  }
+.button {
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.flexBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input{
+  width: 100%;
+  padding: 0.7rem 2rem;
+  border: none;
+  margin-bottom: 2rem;
+  border-radius: 10px;
+  background-color: none;
+  border: 2px solid #e2e2e2;
+}
+
+.input:focus{
+  outline: none;
+}
+.input::placeholder{
+  color: #e2e2e2;
+  font-size: 0.9rem;
+}
+label{
+ font-size: 0.8rem;
+}
 
 body {
   color: black;

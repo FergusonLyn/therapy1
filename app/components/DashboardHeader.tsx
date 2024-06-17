@@ -67,13 +67,16 @@ const DashboardHeader = () => {
                 </div>
                 <ul className={`md:flex items-center gap-10 ${isOpen ? 'block' : 'hidden'} md:block mt-4 md:mt-0 mx-auto`}>
                     <li className="py-2 md:py-0">
-                        <Link href="./dashboard">Dashboard</Link>
+                        <Link href="./">Dashboard</Link>
+                    </li>
+                    <li className="py-2 md:py-0">
+                        <Link href="./dashboard/counsellors">Counsellors</Link>
                     </li>
                     <li className="py-2 md:py-0">
                         <Link href="./dashboard/chats">Chats</Link>
                     </li>
                     <li className="py-2 md:py-0">
-                        <Link href="./">My Diary</Link>
+                        <Link href="./dashboard/mydairy">My Diary</Link>
                     </li>
                     <li className="py-2 md:py-0">
                         <Link href="./">Blogs</Link>

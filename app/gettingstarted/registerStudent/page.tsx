@@ -3,6 +3,9 @@ import Link from "next/link";
 import React, { useState, ChangeEvent } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
+import firebase from "firebase/app";
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -15,14 +18,27 @@ const RegisterStudent = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+ 
+
+  const signup = (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
-  };
+
+    createUserWithEmailAndPassword(auth,email,password)
+    .then((studentSignup)=>{
+      const user =studentSignup.user
+      alert("user signed up successfully")
+      console.log(user)
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error.message);
+    });
+  }
 
   return (
     <div className="flexBox min-h-[90vh] bg-[#fffefe]">
       <div className="flex  flex-col rounded-lg bg-[#ffffff] p-7 w-[470px] relative ">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={signup}>
           <label htmlFor="" className="">
             Full name
           </label>
@@ -86,7 +102,7 @@ const RegisterStudent = () => {
               className="absolute top-10 left-[370px]"
               onClick={togglePasswordVisibility}
             >
-              {isPasswordVisible ?  <IoEyeOutline />:<FaRegEyeSlash /> }
+              {isPasswordVisible ? <IoEyeOutline /> : <FaRegEyeSlash />}
             </button>
           </div>
           <button

@@ -16,13 +16,99 @@
   }
 }
 
+/* Custom button styles */
+.button {
+  @apply rounded-full flex justify-center items-center;
+}
+
+.clicked {
+  @apply bg-gray-400 transform scale-105;
+}
+
+/* Flex container */
+.flexBox {
+  @apply flex justify-center items-center;
+}
+
+/* Input styles */
+.input {
+  @apply w-full px-8 py-3 mb-8 border-2 border-gray-300 rounded-lg;
+  background-color: transparent; /* Tailwind doesn't have `background-color: none` directly */
+}
+
+.input:focus {
+  @apply outline-none;
+}
+
+.input::placeholder {
+  @apply text-gray-300 text-sm;
+}
+
+/* Label styles */
+label {
+  @apply text-xs;
+}
+
+/* Body styles */
+body {
+  @apply text-black p-6;
+}
+
+/* Header styles */
+.header {
+  @apply h-[500px];
+  /* Add background image using Tailwind's utility if needed */
+  /* bg-[url('https://kcc.knust.edu.gh/sites/kcc.knust.edu.gh/files/2023-01/about-kcc.jpg')] bg-cover */
+}
+
+/* 
+Optional: Uncomment and adjust height classes as needed 
+.div-first {
+  @apply h-[490px];
+}
+
+.cognitive-div {
+  @apply h-[545px];
+}
+
+.relative .box {
+  @apply h-[330px];
+}
+
+.teams {
+  @apply h-[1015px];
+}
+*/
+
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
 .button {
   border-radius: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.clicked{
+  background-color: #a39e9e;
+  transform: scale(1.09);
+}
 
 .flexBox {
   display: flex;
@@ -53,13 +139,13 @@ label{
 body {
   color: black;
   padding: 1.5rem;
-}
+} */
 
-.header {
-  height: 500px;
+/* .header { */
+  /* height: 500px; */
   /* background-image: url('https://kcc.knust.edu.gh/sites/kcc.knust.edu.gh/files/2023-01/about-kcc.jpg');
   background-size: cover; */
-}
+/* } */
 
 /* .div-first {
   height: 490px;

@@ -1,26 +1,30 @@
-'use client'
+"use client";
 import { useState, ChangeEvent } from "react";
 import Link from "next/link";
-const Password = () => {
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-  };
-  const [value, setValue] = useState({
-    studentId: "",
-    password: "",
-  });
+import { auth } from "../../firebase";
+import { sendPasswordResetEmail } from 'firebase/auth';
 
-  const handleOnchange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue({
-      ...value,
-      [e.target.name]: e.target.value,
+const Password = () => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const resetPassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+      setMessage('Password reset email sent! Please check your inbox.');
+      
+    })
+    .catch((err) => {
+     alert(err)
+      setMessage('');
     });
   };
 
   return (
     <div className="flexBox min-h-[90vh]">
       <div className="flex  flex-col rounded-lg bg-[#ffffff] p-7 w-[470px]  ">
-        <form action="">
+        <form onSubmit={resetPassword}>
           <h3 className="mb-12 text-2xl font-bold text-center">
             Reset Password
           </h3>
@@ -32,8 +36,10 @@ const Password = () => {
             placeholder="Enter your email"
             type="email"
             name="email"
-            value={value.studentId}
-            onChange={handleOnchange}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             required
           />
 
@@ -46,6 +52,7 @@ const Password = () => {
           <Link href="./login" className="text-center text-xl font-semibold">
             Back to login
           </Link>
+          <p>{message}</p>
         </form>
       </div>
     </div>

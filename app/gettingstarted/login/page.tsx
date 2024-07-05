@@ -31,7 +31,7 @@ const Login = () => {
             Forgot Password
           </Link>
           <p className="text-center text-[13px]">
-            Don&apos;'t have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="./" className="text-black font-bold">
               Sign Up
             </Link>

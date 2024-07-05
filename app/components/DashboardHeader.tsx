@@ -1,5 +1,6 @@
 "use client"; 
 import React, { useState, useEffect } from 'react';
+import Image from "next/image";
 import Link from "next/link";
 import { FiLogOut } from 'react-icons/fi';
 
@@ -85,7 +86,13 @@ const DashboardHeader = () => {
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
                         <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center overflow-hidden">
-                            <img src="https://via.placeholder.com/150" alt="User Profile" className="h-full w-full object-cover" />
+                                <Image
+                                src=""
+                                alt="profile picture"
+                                className='w-full h-full object-cover rounded-md'
+                                width={40} // Set the desired width
+                                height={40} // Set the desired height
+                                />
                         </div>
                         <span className="hidden md:block">Username</span>
                     </div>

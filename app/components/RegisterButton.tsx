@@ -40,7 +40,7 @@ const RegisterButton = () => {
                     <IoIosSearch size={36} className="text-blue-600" />
                     </div>
 
-                    <span className="font-semibold text-sm">I'm looking for mental <br /> health support (Student)</span>
+                    <span className="font-semibold text-sm">I am looking for mental <br /> health support (Student)</span>
                 </Link>
                 <Link href="./gettingstarted/registerCounsellor" className="flex items-center justify-center border-blue-600 border-2 bg-white rounded-md text-black p-4  hover:cursor-pointer hover:shadow-md md:w-[400px]">
 

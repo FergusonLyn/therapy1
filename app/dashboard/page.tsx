@@ -58,7 +58,7 @@ const Page = () => {
                                 />
                             </div>
                             <div>
-                                <h1 className="font-semibold text-sm mb-2">Mr. Stephen Ofori'</h1>
+                                <h1 className="font-semibold text-sm mb-2">Mr. Stephen Ofori</h1>
                                 <p className="font-normal text-xs">Offers comprehensive support for students, helping them navigate through relationship 
                                 issues, anxiety, and depression ...
                                 </p>

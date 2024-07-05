@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState} from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
-import firebase from "firebase/app";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 

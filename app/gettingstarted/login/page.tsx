@@ -1,21 +1,24 @@
 "use client";
 import Link from "next/link";
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [clicked, setClicked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClick = () => {
     setClicked(true);
     setTimeout(() => setClicked(false), 300); // Reset the clicked state after 300ms
   };
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -26,6 +29,12 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((signInUser) => {
         const user = signInUser.user;
+        if (user.emailVerified) {
+          router.push("/dashboard"); 
+        } else {
+          setError("Email verification required. Please check your inbox.");
+        }
+
         console.log(user);
         alert("user signed in");
       })

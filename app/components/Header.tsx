@@ -63,7 +63,7 @@ const Header = () => {
               <Link href="./services">Services</Link> 
             </li>
             <li className="py-2 md:py-0">
-              <Link href="./counsellorDashboard">Dashboard</Link> 
+              <Link href="./dashboard">Dashboard</Link> 
             </li>
             <li className="py-2 md:py-0">
               <Link href="./contact">Contact Us</Link> 

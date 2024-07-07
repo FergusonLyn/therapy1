@@ -80,7 +80,7 @@ const DashboardHeader = () => {
                         <Link href="./dashboard/mydairy">My Diary</Link>
                     </li>
                     <li className="py-2 md:py-0">
-                        <Link href="./">Blogs</Link>
+                        <Link href="./dashboard/blogs">Blogs</Link>
                     </li>
                 </ul>
                 <div className="flex items-center space-x-4">

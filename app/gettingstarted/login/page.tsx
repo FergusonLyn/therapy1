@@ -5,7 +5,7 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Login = () => {
   const [clicked, setClicked] = useState(false);
@@ -30,7 +30,7 @@ const Login = () => {
       .then((signInUser) => {
         const user = signInUser.user;
         if (user.emailVerified) {
-          router.push("/dashboard"); 
+          redirect("/dashboard");
         } else {
           setError("Email verification required. Please check your inbox.");
         }

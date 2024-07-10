@@ -1,22 +1,92 @@
 "use client";
 import Link from "next/link";
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
-import { auth } from "../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { redirect, useRouter } from "next/navigation";
+import { auth, db } from "../../firebase";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  getAuth,
+} from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { doc, getDoc } from "firebase/firestore";
 
-const Login = () => {
+interface User {
+  studentNumber: number;
+  name: string;
+  role: "student" | "counselor";
+}
+
+const fetchUserRole = (userId: string) => {
+  return new Promise((resolve, reject) => {
+    const userDocRef = doc(db, 'users', userId); // Replace 'users' with your collection name
+
+    getDoc(userDocRef)
+      .then((userDocSnap) => {
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data() as User;
+          const userRole = userData.role;
+          resolve(userRole);
+        } else {
+          console.log('User document not found');
+          resolve(null); // Resolve with null if user not found
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching user document:', error);
+        reject(error); // Reject the promise with the error
+      });
+  });
+};
+
+const Login: React.FC = () => {
   const [clicked, setClicked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [error, setError] = useState("");
+  const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<"student" | "counselor" | null>(null);
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(getAuth(), (authUser) => {
+  //     if (authUser) {
+  //       const userDocRef = doc(db, "users", authUser.uid);
+  //       console.log(userDocRef)
+  //       getDoc(userDocRef)
+  //         .then((userDocSnap) => {
+  //           if (userDocSnap.exists()) {
+  //             console.log("User retrieved:", userDocSnap.data());
+  //             const userData = userDocSnap.data() as User; // Assert userData to User type
+  //             setUser(userData);
+  //             console.log(userData.role)
+  //             if (userData.role === "student") {
+  //               router.push("/dashboard");
+  //             } else if (userData.role === "counselor") {
+  //               router.push("/counsellorDashboard");
+  //             }
+  //             console.log(`User is a ${userData.role}`);
+  //           } else {
+  //             setUser(null); // Handle case where user document doesn't exist
+  //             console.log("User document not found!");
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error fetching user document:", error);
+  //         });
+  //     } else {
+  //       setUser(null); // Handle case where authUser is null
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
 
   const handleClick = () => {
     setClicked(true);
-    setTimeout(() => setClicked(false), 300); // Reset the clicked state after 300ms
+    setTimeout(() => setClicked(false), 300); 
   };
   const router = useRouter();
 
@@ -29,14 +99,11 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((signInUser) => {
         const user = signInUser.user;
-        if (user.emailVerified) {
-          redirect("/dashboard");
-        } else {
-          setError("Email verification required. Please check your inbox.");
-        }
-
         console.log(user);
         alert("user signed in");
+        if(role==="student"){
+
+        }
       })
       .catch((error) => {
         console.log(error);

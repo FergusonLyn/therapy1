@@ -3,8 +3,9 @@ import Link from "next/link";
 import React, { useState, ChangeEvent } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 const RegisterCounsellor = () => {
   const [fullName, setFullName] = useState("");
@@ -21,13 +22,30 @@ const RegisterCounsellor = () => {
     e.preventDefault();
 
     createUserWithEmailAndPassword(auth, email, password)
+      // .then((counsellorSignup) => {
+      //   const user = counsellorSignup.user;
+      //   alert("counsellor signed up successfully");
+      //   console.log(user);
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      //   alert(error.message);
+      // });
       .then((counsellorSignup) => {
         const user = counsellorSignup.user;
-        alert("counsellor signed up successfully");
         console.log(user);
+        return addDoc(collection(db, "users"), {
+          studentNumber: counsellorId,
+          name: fullName,
+          role: "counsellor",
+        });
+      })
+      .then(() => {
+        console.log("Document written!");
+        alert("Counsellor signed up successfully!");
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         alert(error.message);
       });
   };

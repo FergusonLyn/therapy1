@@ -4,9 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiLogOut } from 'react-icons/fi';
 
-
-const DashboardHeader = () => {
-    const [isOpen, setIsOpen] = useState(false);
+const CDashboardHeader = () => {
+  const [isOpen, setIsOpen] = useState(false);
     const [isSticky, setIsSticky] = useState(false);
 
     const toggleMenu = () => {
@@ -71,23 +70,18 @@ const DashboardHeader = () => {
                         <Link href="./">Dashboard</Link>
                     </li>
                     <li className="py-2 md:py-0">
-                        <Link href="./dashboard/counsellors">Counsellors</Link>
+                        <Link href="">Appointments</Link>
                     </li>
                     <li className="py-2 md:py-0">
-                        <Link href="./dashboard/chats">Chats</Link>
+                        <Link href="">Chats</Link>
                     </li>
-                    <li className="py-2 md:py-0">
-                        <Link href="./dashboard/mydairy">My Diary</Link>
-                    </li>
-                    <li className="py-2 md:py-0">
-                        <Link href="./dashboard/blogs">Blogs</Link>
-                    </li>
+                    
                 </ul>
                 <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
                         <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center overflow-hidden">
                                 <Image
-                                src=""
+                                src="/profile.jpg"
                                 alt="profile picture"
                                 className='w-full h-full object-cover rounded-md'
                                 width={40} // Set the desired width
@@ -106,4 +100,4 @@ const DashboardHeader = () => {
     )
 }
 
-export default DashboardHeader;
+export default CDashboardHeader

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import ServicesDiv from "./components/ServicesDiv";
@@ -10,10 +11,13 @@ export default function Home() {
      {/* the next div */}
      <div className="div-first flex flex-col md:flex-row h-auto md:h-[540px] w-full bg-slate-50 p-4 mt-2 gap-2">
         <div className="rounded-md h-60 md:h-80 w-full md:w-1/3 flex mx-auto md:ml-12 md:mr-4 mt-4 md:mt-16">
-          <img 
-            src="https://img.freepik.com/premium-photo/multi-ethnic-group-people-dressed-casual-wear-laughing-cheerfully-while-chatting-office_236854-26597.jpg" 
-            alt="" 
-            className="h-full w-full object-cover rounded-md"/>
+              <Image
+              src="/groupPeople.avif"
+              alt="Multi-ethnic group of people dressed in casual wear laughing cheerfully while chatting in an office"
+              className='w-full h-full object-cover rounded-md'
+              width={240} // Set the desired width
+              height={240} // Set the desired height
+            />
         </div>
         <div className="h-full w-full md:w-3/4 p-7">
           <h1 className="font-semibold text-xl md:text-2xl mb-4">You Deserve to be <br />
@@ -57,7 +61,15 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="relative">
             <div className="box bg-white p-10 shadow-lg rounded-md" style={{ height: '330px' }}>
-              <img src="https://www.lotusmedicalcentre.com.au/wp-content/uploads/2023/09/Depositphotos_97113336_S.jpg" alt="Image" className="object-center object-cover h-full w-full" />
+                <Image
+                  src="/depression.jpg"
+                  alt="depression"
+                  className='w-full h-full object-cover rounded-md'
+                  objectFit="cover"
+                  objectPosition="center"
+                  width={300} // Set the desired width
+                  height={300} // Set the desired height
+                />
               <div className="absolute bottom-6 left-6 w-38 h-16 rounded-lg bg-white font-semibold text-sm p-5">Depression</div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
                 <div className="w-9 h-9 bg-black rounded-full ml-2"></div>
@@ -66,7 +78,15 @@ export default function Home() {
           </div>
           <div className="relative">
             <div className="box bg-white p-10 shadow-lg rounded-md" style={{ height: '330px' }}>
-              <img src="https://thetherapycentre.ca/wp-content/uploads/2022/05/anger-management-therapy-toronto-oakville-hamilton-virtual-therapy-centre-1024x576.png" alt="Image" className="object-center object-cover h-full w-full" />
+                <Image
+                  src="/anger.png"
+                  alt="anger"
+                  className='w-full h-full object-cover rounded-md'
+                  objectFit="cover"
+                  objectPosition="center"
+                  width={300} // Set the desired width
+                  height={300} // Set the desired height
+                />
               <div className="absolute bottom-6 left-6 w-38 h-16 rounded-lg bg-white font-semibold text-sm p-5">Anger Issues</div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
                 <div className="w-9 h-9 bg-black rounded-full ml-2"></div>
@@ -75,7 +95,15 @@ export default function Home() {
           </div>
           <div className="relative">
             <div className="box bg-white p-10 shadow-lg rounded-md" style={{ height: '330px' }}>
-              <img src="https://pennstatehealthnews.org/wp-content/uploads/2023/03/Anxiety_1200.jpg" alt="Image" className="object-center object-cover h-full w-full" />
+                <Image
+                  src="/anxiety.jpg"
+                  alt="anxiety"
+                  className='w-full h-full object-cover rounded-md'
+                  objectFit="cover"
+                  objectPosition="center"
+                  width={300} // Set the desired width
+                  height={300} // Set the desired height
+                />
               <div className="absolute bottom-6 left-6 w-38 h-16 rounded-lg bg-white font-semibold text-sm p-5">Anxiety Issues</div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
                 <div className="w-9 h-9 bg-black rounded-full ml-2"></div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from "next/image";
 import Header from '../components/Header'
 import ServicesDiv from '../components/ServicesDiv'
 import Footer from '../components/Footer'
@@ -36,7 +37,15 @@ const AboutUS = () => {
             <div key={idx} className="teams-profile">
               <div className="bg-white p-4 md:p-10 shadow-lg rounded-md">
                 <div className='h-56 md:h-64'>
-                  <img src="https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL3BsYXlcLzBiN2Y0ZTliLWY1OWMtNDAyNC05ZjA2LWIzZGMxMjg1MGFiNy0xOTIwLTEwODAuanBnIiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo4Mjh9fX0=" alt="Image" className="object-center object-cover h-full w-full rounded-t-md" />
+                    <Image
+                      src="/dev.webp"
+                      alt="anxiety"
+                      className='w-full h-full object-cover rounded-md'
+                      objectFit="cover"
+                      objectPosition="center"
+                      width={300} // Set the desired width
+                      height={300} // Set the desired height
+                    />
                 </div>
                 <div className='p-4 text-center'>
                   <h1 className='font-semibold text-lg md:text-2xl'>Dr. Emily Parker</h1>

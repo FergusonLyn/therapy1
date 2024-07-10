@@ -65,7 +65,9 @@ const Header = () => {
             <li className="py-2 md:py-0">
               <Link href="./dashboard">Dashboard</Link> 
             </li>
-            <li className="py-2 md:py-0">Contact Us</li>
+            <li className="py-2 md:py-0">
+              <Link href="./contact">Contact Us</Link> 
+            </li>
             <li className="py-2 md:py-0 md:ml-auto">
               <Link href="./gettingstarted">Get Started</Link>
             </li>

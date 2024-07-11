@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import { collection, addDoc,setDoc, doc} from "firebase/firestore";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -13,6 +13,9 @@ const RegisterStudent = () => {
   const [studentId, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+
+  
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -30,10 +33,11 @@ const RegisterStudent = () => {
       .then((studentSignup) => {
         const user = studentSignup.user;
         console.log(user);
-        return addDoc(collection(db, "users"), {
+        return setDoc(doc(db, "users",user.uid), {
           studentNumber: studentId,
           name: fullName,
-          role:"student"
+          role:"student",
+          id:user.uid,
         });
       })
       .then(() => {

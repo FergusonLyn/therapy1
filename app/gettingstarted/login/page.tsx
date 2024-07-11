@@ -49,39 +49,7 @@ const Login: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<"student" | "counselor" | null>(null);
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(getAuth(), (authUser) => {
-  //     if (authUser) {
-  //       const userDocRef = doc(db, "users", authUser.uid);
-  //       console.log(userDocRef)
-  //       getDoc(userDocRef)
-  //         .then((userDocSnap) => {
-  //           if (userDocSnap.exists()) {
-  //             console.log("User retrieved:", userDocSnap.data());
-  //             const userData = userDocSnap.data() as User; // Assert userData to User type
-  //             setUser(userData);
-  //             console.log(userData.role)
-  //             if (userData.role === "student") {
-  //               router.push("/dashboard");
-  //             } else if (userData.role === "counselor") {
-  //               router.push("/counsellorDashboard");
-  //             }
-  //             console.log(`User is a ${userData.role}`);
-  //           } else {
-  //             setUser(null); // Handle case where user document doesn't exist
-  //             console.log("User document not found!");
-  //           }
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error fetching user document:", error);
-  //         });
-  //     } else {
-  //       setUser(null); // Handle case where authUser is null
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
+ 
 
 
   const handleClick = () => {
@@ -102,9 +70,15 @@ const Login: React.FC = () => {
         console.log(user);
         alert("user signed in");
         if(role==="student"){
-
+          router.push("/dashboard");
+        } else if (role === "counselor") {
+          router.push("/counsellorDashboard");
         }
-      })
+        else {
+          console.log('no role setted')
+        }
+        console.log(`User is a ${role}`);
+      } )
       .catch((error) => {
         console.log(error);
         alert(error.message);

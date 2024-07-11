@@ -5,7 +5,7 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc,setDoc,doc} from "firebase/firestore";
 
 const RegisterCounsellor = () => {
   const [fullName, setFullName] = useState("");
@@ -34,10 +34,11 @@ const RegisterCounsellor = () => {
       .then((counsellorSignup) => {
         const user = counsellorSignup.user;
         console.log(user);
-        return addDoc(collection(db, "users"), {
+        return setDoc(doc(db, "users",user.uid), {
           studentNumber: counsellorId,
           name: fullName,
           role: "counsellor",
+          id:user.uid
         });
       })
       .then(() => {

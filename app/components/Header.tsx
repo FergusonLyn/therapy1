@@ -1,9 +1,17 @@
-"use client"; 
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Link from "next/link";
 
-const Header = () => {
+interface AuthState {
+  isStudentAuthenticated: boolean;
+  isCounsellorAuthenticated: boolean;
+}
+
+const Header: React.FC<AuthState> = ({
+  isStudentAuthenticated,
+  isCounsellorAuthenticated,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -12,7 +20,6 @@ const Header = () => {
 
   return (
     <>
-
       <div className="header w-full bg-blue-800 rounded-md">
         <div className="navbar font-normal text-white text-sm p-4 md:p-8 flex justify-between items-center">
           {!isOpen && (
@@ -50,26 +57,29 @@ const Header = () => {
           </button>
           <ul
             className={`md:flex items-center gap-4 ${
-              isOpen ? 'block' : 'hidden'
+              isOpen ? "block" : "hidden"
             } md:block mt-4 md:mt-0`}
           >
             <li className="py-2 md:py-0">
               <Link href="./">Home</Link>
             </li>
-            <li className="py-2 md:py-0"> 
-              <Link href="./about">About Us</Link> 
+            <li className="py-2 md:py-0">
+              <Link href="./about">About Us</Link>
             </li>
             <li className="py-2 md:py-0">
-              <Link href="./services">Services</Link> 
+              <Link href="./services">Services</Link>
             </li>
             <li className="py-2 md:py-0">
-              <Link href="./dashboard">Dashboard</Link> 
-            </li>
-            <li className="py-2 md:py-0">
-              <Link href="./contact">Contact Us</Link> 
+              <Link href="./contact">Contact Us</Link>
             </li>
             <li className="py-2 md:py-0 md:ml-auto">
-              <Link href="./gettingstarted">Get Started</Link>
+              {isStudentAuthenticated ? (
+                <Link href={"/dashboard"}>Go to Dashboard</Link>
+              ) : isCounsellorAuthenticated ? (
+                <Link href={"/counsellorDashboard"}>Go to Dashboard</Link>
+              ) : (
+                <Link href="./gettingstarted">Get Started</Link>
+              )}
             </li>
           </ul>
         </div>

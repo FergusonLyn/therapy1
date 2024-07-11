@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
-import { auth } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../../firebase";
+import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import { collection, addDoc,setDoc, doc} from "firebase/firestore";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -13,26 +14,41 @@ const RegisterStudent = () => {
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+
+  
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
- 
-
-  const signup = (e: React.FormEvent<HTMLFormElement>)=>{
+  const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    createUserWithEmailAndPassword(auth,email,password)
-    .then((studentSignup)=>{
-      const user =studentSignup.user
-      alert("user signed up successfully")
-      console.log(user)
-    })
-    .catch((error) => {
-      console.log(error);
-      alert(error.message);
-    });
-  }
+    createUserWithEmailAndPassword(auth, email, password)
+      // .then((studentSignup) => {
+      //   const user = studentSignup.user
+      //   alert("user signed up successfully");
+      //   console.log(user);
+      // })
+      .then((studentSignup) => {
+        const user = studentSignup.user;
+        console.log(user);
+        return setDoc(doc(db, "users",user.uid), {
+          studentNumber: studentId,
+          name: fullName,
+          role:"student",
+          id:user.uid,
+        });
+      })
+      .then(() => {
+        console.log("Document written!");
+        alert("User signed up successfully!");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert(error.message);
+      });
+  };
 
   return (
     <div className="flexBox min-h-[90vh] bg-[#fffefe]">

@@ -15,46 +15,46 @@ import { doc, getDoc } from "firebase/firestore";
 interface User {
   studentNumber: number;
   name: string;
-  role: "student" | "counselor";
+  role: "student" | "counsellor";
 }
-
-const fetchUserRole = (userId: string) => {
-  return new Promise((resolve, reject) => {
-    const userDocRef = doc(db, 'users', userId); // Replace 'users' with your collection name
-
-    getDoc(userDocRef)
-      .then((userDocSnap) => {
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data() as User;
-          const userRole = userData.role;
-          resolve(userRole);
-        } else {
-          console.log('User document not found');
-          resolve(null); // Resolve with null if user not found
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching user document:', error);
-        reject(error); // Reject the promise with the error
-      });
-  });
-};
 
 const Login: React.FC = () => {
   const [clicked, setClicked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [error, setError] = useState("");
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<"student" | "counselor" | null>(null);
+  const [role, setRole] = useState<"student" | "counsellor" | null>(null);
 
- 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userId = user.uid; // Get the current user's ID
+      fetchUserRole(userId); // Call the function with the user ID
+    } else {
+      // Handle the case where no user is logged in
+      console.log("No user currently logged in!");
+    }
+  });
 
+  const fetchUserRole = (userId: string) => {
+    const userDocRef = doc(db, "users", userId);
 
+    getDoc(userDocRef)
+      .then((userDocSnap) => {
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data() as User;
+          setRole(userData.role); // Assuming userData.role is always a string
+        } else {
+          console.log("User document not found!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user document:", error);
+      });
+  };
   const handleClick = () => {
     setClicked(true);
-    setTimeout(() => setClicked(false), 300); 
+    setTimeout(() => setClicked(false), 300);
   };
   const router = useRouter();
 
@@ -69,16 +69,15 @@ const Login: React.FC = () => {
         const user = signInUser.user;
         console.log(user);
         alert("user signed in");
-        if(role==="student"){
+        if (role === "student") {
           router.push("/dashboard");
-        } else if (role === "counselor") {
+        } else if (role === "counsellor") {
           router.push("/counsellorDashboard");
-        }
-        else {
-          console.log('no role setted')
+        } else {
+          console.log("no role setted");
         }
         console.log(`User is a ${role}`);
-      } )
+      })
       .catch((error) => {
         console.log(error);
         alert(error.message);

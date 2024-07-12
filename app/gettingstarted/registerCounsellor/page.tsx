@@ -6,6 +6,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc,setDoc,doc} from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const RegisterCounsellor = () => {
   const [fullName, setFullName] = useState("");
@@ -13,24 +14,17 @@ const RegisterCounsellor = () => {
   const [counsellorId, setCounsellorId] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  
+  const router =useRouter()
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+  
 
   const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     createUserWithEmailAndPassword(auth, email, password)
-      // .then((counsellorSignup) => {
-      //   const user = counsellorSignup.user;
-      //   alert("counsellor signed up successfully");
-      //   console.log(user);
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      //   alert(error.message);
-      // });
       .then((counsellorSignup) => {
         const user = counsellorSignup.user;
         console.log(user);
@@ -44,6 +38,7 @@ const RegisterCounsellor = () => {
       .then(() => {
         console.log("Document written!");
         alert("Counsellor signed up successfully!");
+        router.push("/gettingstarted/login")
       })
       .catch((error) => {
         console.error(error);
@@ -70,14 +65,14 @@ const RegisterCounsellor = () => {
             required
           />{" "}
           <label htmlFor="" className="">
-            Student Id
+            Counsellor Id
           </label>
           <input
             className="input"
-            placeholder="Enter Student Id..."
+            placeholder="Enter Counsellor Id..."
             type="number"
             value={counsellorId}
-            name="studentId"
+            name="counsellor Id"
             onChange={(e) => {
               setCounsellorId(e.target.value);
             }}

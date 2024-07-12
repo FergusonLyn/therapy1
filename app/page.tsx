@@ -16,40 +16,26 @@ interface User {
 }
 
 export default function Home() {
-  const [error, setError] = useState("");
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<"student" | "counselor" | null>(null);
   const [isStudentAuthenticated, setIsStudentAuthenticated] = useState(false);
   const [isCounsellorAuthenticated, setIsCounsellorAuthenticated] =
     useState(false);
-
-  const router = useRouter();
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), (authUser) => {
       if (authUser) {
         const userDocRef = doc(db, "users", authUser.uid);
-        console.log(userDocRef);
         getDoc(userDocRef)
           .then((userDocSnap) => {
             if (userDocSnap.exists()) {
-              console.log("User retrieved:", userDocSnap.data());
-              const userData = userDocSnap.data() as User; // Assert userData to User type
-              setUser(userData);
-              const userRole = userData.role;
-              setRole(userRole);
-              console.log(userData.role);
+              const userData = userDocSnap.data() as User;
               if (userData.role === "student") {
                 setIsStudentAuthenticated(true);
-                console.log(isStudentAuthenticated);
               } else if (userData.role === "counselor") {
-                // router.push("/counsellorDashboard");
                 setIsCounsellorAuthenticated(true);
-                console.log(isCounsellorAuthenticated);
               }
               console.log(`User is a ${userData.role}`);
             } else {
-              setUser(null); // Handle case where user document doesn't exist
+              setUser(null);
               console.log("User document not found!");
               setIsCounsellorAuthenticated(false);
               setIsStudentAuthenticated(false);
@@ -59,7 +45,7 @@ export default function Home() {
             console.error("Error fetching user document:", error);
           });
       } else {
-        setUser(null); // Handle case where authUser is null
+        setUser(null);
       }
     });
 
@@ -67,7 +53,10 @@ export default function Home() {
   }, [isStudentAuthenticated]);
   return (
     <main>
-      <Header isCounsellorAuthenticated={isCounsellorAuthenticated} isStudentAuthenticated={isStudentAuthenticated} />
+      <Header
+        isCounsellorAuthenticated={isCounsellorAuthenticated}
+        isStudentAuthenticated={isStudentAuthenticated}
+      />
 
       {/* the next div */}
       <div className="div-first flex flex-col md:flex-row h-auto md:h-[540px] w-full bg-slate-50 p-4 mt-2 gap-2">
@@ -93,13 +82,8 @@ export default function Home() {
           </p>
 
           {/* button for signing in */}
-          <button
-            className="rounded-3xl bg-gray-950 text-white text-sm h-11 w-36 mb-5"
-            
-          >
-           
-              Get Started
-          
+          <button className="rounded-3xl bg-gray-950 text-white text-sm h-11 w-36 mb-5">
+            Get Started
           </button>
 
           {/* grid section about key traits of the website */}

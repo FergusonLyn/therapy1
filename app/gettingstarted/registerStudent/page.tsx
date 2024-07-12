@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
-import { createUserWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc,setDoc, doc} from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc} from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -16,6 +17,7 @@ const RegisterStudent = () => {
 
 
   
+  const router = useRouter()
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -24,12 +26,8 @@ const RegisterStudent = () => {
   const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+
     createUserWithEmailAndPassword(auth, email, password)
-      // .then((studentSignup) => {
-      //   const user = studentSignup.user
-      //   alert("user signed up successfully");
-      //   console.log(user);
-      // })
       .then((studentSignup) => {
         const user = studentSignup.user;
         console.log(user);
@@ -43,6 +41,7 @@ const RegisterStudent = () => {
       .then(() => {
         console.log("Document written!");
         alert("User signed up successfully!");
+        router.push("/gettingstarted/login")
       })
       .catch((error) => {
         console.error(error);

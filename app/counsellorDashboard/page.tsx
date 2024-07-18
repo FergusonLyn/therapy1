@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { IoIosSend } from 'react-icons/io';
 import CDashboardHeader from '../components/CDashboardHeader'
 import Image from "next/image";
@@ -7,7 +7,9 @@ import Link from "next/link";
 import TodayDate from '../components/TodayDate';
 import PatientsRatingHistogram from '../components/PatientsRatingHistogram';
 
+
 const page = () => {
+
 
   // Function to generate random colors
   const getRandomColor = () => {

@@ -1,8 +1,11 @@
 import React from "react";
 
-
-
-
-export const loader = () => {
-  return <div className="spinner"></div>;
+export const Loader = () => {
+  return (
+    <>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="spinner"></div>;
+      </div>
+    </>
+  );
 };

@@ -1,18 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useContext } from "react";
+import { userAuthContext } from "../contexts/userContext";
 
-interface AuthState {
-  isStudentAuthenticated: boolean;
-  isCounsellorAuthenticated: boolean;
+
+const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isStudentAuthenticated, setIsStudentAuthenticated] = useState(false);
+  const [isCounsellorAuthenticated, setIsCounsellorAuthenticated] =
+    useState(false);
+
+ const context = useContext(userAuthContext);
+
+ if (!context) {
+  throw new Error('userAuthContext must be used within a UserContextProvider');
 }
 
-const Header: React.FC<AuthState> = ({
-  isStudentAuthenticated,
-  isCounsellorAuthenticated,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+ const { user, loading } = context;
+
+  useEffect(() => {
+    if (!loading && user) {
+      if (user.role === "student") {
+        setIsStudentAuthenticated(true);
+      } else if (user.role === "counselor") {
+        setIsCounsellorAuthenticated(true);
+      } else {
+        setIsStudentAuthenticated(false);
+        setIsCounsellorAuthenticated(false);
+      }
+    } else {
+      setIsStudentAuthenticated(false);
+      setIsCounsellorAuthenticated(false);
+    }
+  }, [user, loading]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

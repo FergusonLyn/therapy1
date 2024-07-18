@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { UserContextProvider } from "./contexts/userContext";
 import "./globals.css";
 
-const poppins = Poppins({ weight:"300", subsets: ["latin"] });
+const poppins = Poppins({ weight: "300", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>{children}</body>
+      <UserContextProvider>
+        <body className={poppins.className}>{children}</body>
+      </UserContextProvider>
     </html>
   );
 }

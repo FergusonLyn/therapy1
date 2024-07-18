@@ -1,22 +1,33 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiLogOut } from "react-icons/fi";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { userAuthContext } from "../contexts/userContext";
+import { extractInitials } from "../utils/string";
 
 const DashboardHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
+
+  const context = useContext(userAuthContext);
+
+  if (!context) {
+    throw new Error(
+      "userAuthContext must be used within a UserContextProvider"
+    );
+  }
 
   const logOut = () => {
     signOut(auth)
       .then(() => {
         alert("User signed out successfully!");
-        router.push('/')
+        context.resetContext();
+        router.push("/");
       })
       .catch((error) => {
         console.error("Sign out error:", error);
@@ -93,6 +104,9 @@ const DashboardHeader = () => {
           } md:block mt-4 md:mt-0 mx-auto`}
         >
           <li className="py-2 md:py-0">
+            <Link href="/">Home</Link>
+          </li>
+          <li className="py-2 md:py-0">
             <Link href="./">Dashboard</Link>
           </li>
           <li className="py-2 md:py-0">
@@ -110,18 +124,21 @@ const DashboardHeader = () => {
         </ul>
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center overflow-hidden">
-              <Image
-                src=""
-                alt="profile picture"
-                className="w-full h-full object-cover rounded-md"
-                width={40} // Set the desired width
-                height={40} // Set the desired height
-              />
+            <div className="h-8 w-8 bg-blue-500 text-white rounded-full flex items-center justify-center overflow-hidden">
+              {extractInitials(context.user?.name ?? "")}
             </div>
-            <span className="hidden md:block">Username</span>
+            <span className="hidden md:block">
+              {context.loading ? (
+                <p>Loading...</p>
+              ) : (
+                <p>{context.user?.name}</p>
+              )}
+            </span>
           </div>
-          <button className="text-white hover:text-gray-300 flex items-center" onClick={logOut}>
+          <button
+            className="text-white hover:text-gray-300 flex items-center"
+            onClick={logOut}
+          >
             <FiLogOut size={20} className="mr-1" />
             <span className="hidden md:block">Logout</span>
           </button>

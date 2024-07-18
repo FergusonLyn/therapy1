@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<"student" | "counsellor" | null>(null);
 
   onAuthStateChanged(auth, (user) => {
@@ -64,11 +64,13 @@ const Login: React.FC = () => {
 
   const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((signInUser) => {
         const user = signInUser.user;
         console.log(user);
         alert("user signed in");
+        setLoading(true);
         if (role === "student") {
           router.push("/dashboard");
         } else if (role === "counsellor") {
@@ -81,6 +83,7 @@ const Login: React.FC = () => {
       .catch((error) => {
         console.log(error);
         alert(error.message);
+        setLoading(false);
       });
   };
 
@@ -95,7 +98,7 @@ const Login: React.FC = () => {
           </label>
           <input
             className="input"
-            placeholder="Enter Student Id"
+            placeholder="Enter email..."
             type="email"
             value={email}
             name="email"

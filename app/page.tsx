@@ -1,62 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { auth, db } from "./firebase";
-import { onAuthStateChanged, getAuth } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 
-interface User {
-  studentNumber: number;
-  name: string;
-  role: "student" | "counselor";
-}
-
 export default function Home() {
-  const [user, setUser] = useState<User | null>(null);
-  const [isStudentAuthenticated, setIsStudentAuthenticated] = useState(false);
-  const [isCounsellorAuthenticated, setIsCounsellorAuthenticated] =
-    useState(false);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(), (authUser) => {
-      if (authUser) {
-        const userDocRef = doc(db, "users", authUser.uid);
-        getDoc(userDocRef)
-          .then((userDocSnap) => {
-            if (userDocSnap.exists()) {
-              const userData = userDocSnap.data() as User;
-              if (userData.role === "student") {
-                setIsStudentAuthenticated(true);
-              } else if (userData.role === "counselor") {
-                setIsCounsellorAuthenticated(true);
-              }
-              console.log(`User is a ${userData.role}`);
-            } else {
-              setUser(null);
-              console.log("User document not found!");
-              setIsCounsellorAuthenticated(false);
-              setIsStudentAuthenticated(false);
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching user document:", error);
-          });
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [isStudentAuthenticated]);
   return (
     <main>
-      <Header
-        isCounsellorAuthenticated={isCounsellorAuthenticated}
-        isStudentAuthenticated={isStudentAuthenticated}
-      />
+      <Header />
 
       {/* the next div */}
       <div className="div-first flex flex-col md:flex-row h-auto md:h-[540px] w-full bg-slate-50 p-4 mt-2 gap-2">

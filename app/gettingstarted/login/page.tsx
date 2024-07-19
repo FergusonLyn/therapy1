@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
+import { Loader } from "@/app/components/Loader";
 
 interface User {
   studentNumber: number;
@@ -69,8 +70,6 @@ const Login: React.FC = () => {
       .then((signInUser) => {
         const user = signInUser.user;
         console.log(user);
-        alert("user signed in");
-        setLoading(true);
         if (role === "student") {
           router.push("/dashboard");
         } else if (role === "counsellor") {
@@ -138,7 +137,7 @@ const Login: React.FC = () => {
               clicked ? "clicked" : ""
             }`}
           >
-            Sign In{" "}
+            {loading ? <Loader /> : "Sign In"}
           </button>
           <Link
             href="./forgotPassword"

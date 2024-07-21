@@ -2,27 +2,24 @@ import React from 'react'
 
 const ServicesDiv = () => {
   return (
-    <div className="w-full bg-pink-200 rounded-md mt-2 p-4 md:p-8">
-      <div className="flex flex-col md:flex-row text-sm">
-        <div className="w-full md:w-3/4 p-4 md:p-7">
-          {/* Button for accessing services */}
-          <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-6 md:mb-16">Services</button>
-
-          <h1 className="font-semibold text-xl md:text-2xl mb-4">
-            Your Student Wellbeing Services <br />
-            for a Healthy Campus Life
-          </h1>
-          <p className="text-sm font-normal mb-4 md:w-3/5">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem maxime hic 
-            molestiae odio pariatur praesentium accusamus, delectus voluptates nesciunt reprehenderit 
-            consequatur doloremque corporis ipsum ipsam ab vero, alias totam sed?
-          </p>
-        </div>
-        <div className="w-full md:w-1/4">
-          {/* Placeholder for additional content or image */}
+    <div className="bg-pink-100 rounded-md mt-2 p-4">
+        <div className="flex flex-col md:flex-row text-sm p-8">
+          <div className="h-full w-full md:w-3/4 p-7 flex flex-col justify-center">
+            <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-16">
+              Services
+            </button>
+            <h1 className="font-semibold text-2xl mb-4">
+              Your Student Wellbeing Services <br /> for a Healthy Campus Life
+            </h1>
+            <p className="text-sm font-normal mb-4">
+            Our platform offers a comprehensive suite of services tailored to your needs. 
+            From one-on-one counseling sessions and wellness workshops to an AI companion ready to chat 24/7, 
+            we're here to ensure your university experience is fulfilling and stress-free.
+            </p>
+          </div>
+          <div className="hidden md:block w-1/4"></div>
         </div>
       </div>
-    </div>
   )
 }
 

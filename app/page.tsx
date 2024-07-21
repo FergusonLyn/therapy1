@@ -27,10 +27,9 @@ export default function Home() {
             Happy and Well
           </h1>
           <p className="text-sm font-normal w-full md:w-3/5 mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem
-            maxime hic molestiae odio pariatur praesentium accusamus, delectus
-            voluptates nesciunt reprehenderit consequatur doloremque corporis
-            ipsum ipsam ab vero, alias totam sed?
+            Our platform offers you the support you need. Connect with experienced counselors, 
+            explore a wide range of therapeutic content, and chat with our AI conversationalist anytime, 
+            day or night. We are here to help you find your path to well-being.
           </p>
 
           {/* button for signing in */}
@@ -159,10 +158,9 @@ export default function Home() {
               Your Student Wellbeing Services <br /> for a Healthy Campus Life
             </h1>
             <p className="text-sm font-normal mb-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem
-              maxime hic molestiae odio pariatur praesentium accusamus, delectus
-              voluptates nesciunt reprehenderit consequatur doloremque corporis
-              ipsum ipsam ab vero, alias totam sed?
+            Our platform offers a comprehensive suite of services tailored to your needs. 
+            From one-on-one counseling sessions and wellness workshops to an AI companion ready to chat 24/7, 
+            we're here to ensure your university experience is fulfilling and stress-free.
             </p>
           </div>
           <div className="hidden md:block w-1/4"></div>
@@ -177,23 +175,32 @@ export default function Home() {
               Ready to embark on the <br /> Journey of Wellness?
             </h1>
             <p className="text-sm font-normal mb-4">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem
-              maxime hic molestiae odio pariatur praesentium accusamus, delectus
-              voluptates nesciunt reprehenderit consequatur doloremque corporis
-              ipsum ipsam ab vero, alias totam sed?
+            Discover a world where your mental and emotional well-being are our top priority. 
+            Our AI-powered platform, combined with professional counseling and enriching resources, 
+            ensures you have the support you need every step of the way. Join us in creating a healthier, 
+            happier you.
             </p>
             <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mt-4 md:mt-16">
               Services
             </button>
           </div>
           <div className="grid grid-rows-2 w-full md:w-1/2 p-2">
-            <div className="bg-gray-300 h-48 md:h-64 m-2"></div>
+            <div className="bg-gray-300 h-48 md:h-64 m-2 overflow-hidden">
+                <Image
+                  src="/serviceTherapy.jpg"
+                  alt="Description of the image"
+                  layout="intrinsic" // Maintain the image aspect ratio
+                  width={600} // Set a fixed width
+                  height={400} // Set a fixed height
+                  className="rounded-md"
+                />
+            </div>
             <div className="grid grid-cols-2 gap-2 md:gap-6">
-              <div className="flex items-center justify-center bg-gray-200 m-2 h-20">
-                Text 1
+              <div className="flex items-center justify-center bg-gray-950 m-2 h-20">
+              <p className="font-semibold text-md text-white ">Expert Counselors</p>
               </div>
-              <div className="flex items-center justify-center bg-gray-200 m-2 h-20">
-                Text 2
+              <div className="flex items-center justify-center bg-gray-950 m-2 h-20">
+              <p className="font-semibold text-md text-white">24/7 AI Support</p>
               </div>
             </div>
           </div>

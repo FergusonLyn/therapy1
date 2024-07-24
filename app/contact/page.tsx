@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import React from 'react'
 import { IoArrowBack } from 'react-icons/io5';
+import Header from '../components/Header';
 
 const page = () => {
   return (
     <>
      
-     <div className='fixed top-4 left-4 flex items-center bg-white p-2 rounded-md border border-gray-300 hover:bg-gray-100 cursor-pointer transition-colors'>
+     {/* <div className='fixed top-4 left-4 flex items-center bg-white p-2 rounded-md border border-gray-300 hover:bg-gray-100 cursor-pointer transition-colors'>
       
         <IoArrowBack className='text-gray-600 text-lg mr-2' />
         <span className='text-gray-600 text-sm font-medium'>
@@ -16,10 +17,12 @@ const page = () => {
         </span>
       
       
-    </div>
+    </div> */}
+
+    <Header />
      
 
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 m-4">
           <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
           <p className="text-gray-600 mb-6">We'd love to hear from you! Please fill out the form below and we’ll get back to you as soon as possible.</p>

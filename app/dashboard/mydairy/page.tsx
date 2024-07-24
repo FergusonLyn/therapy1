@@ -1,6 +1,6 @@
 "use client";
 import DashboardHeader from "@/app/components/DashboardHeader";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BiSolidBookHeart } from "react-icons/bi";
@@ -11,7 +11,6 @@ import { auth, db } from "../../firebase";
 import toast, { Toaster } from "react-hot-toast";
 import {
   getDocs,
-  setDoc,
   deleteDoc,
   doc,
   query,
@@ -19,11 +18,14 @@ import {
   where,
 } from "firebase/firestore";
 import { DocumentData } from "@firebase/firestore";
+import { DiaryContext } from "@/app/contexts/diaryContext";
 
 const Page = () => {
   const [diariesArray, setDiariesArray] = useState<DocumentData[]>([]);
   const successToast = () => toast("Here is your toast.");
   const errorToast = () => toast(" ooops an error occured ");
+
+  const { editDiary } = useContext(DiaryContext);
 
   useEffect(() => {
     const getMyDiaries = async () => {
@@ -121,7 +123,7 @@ const Page = () => {
               </div>
               <div className="relative w-full bg-blue-200 h-[250px] rounded-md p-4">
                 <span className="md:text-xl sm:text-lg text-base font-bold my-2">
-                  Title
+                  {items.title}
                 </span>
                 <p>{items.note}</p>
                 <button
@@ -130,7 +132,12 @@ const Page = () => {
                 >
                   <FaTrashAlt />
                 </button>
-                <button className="absolute bottom-3 right-10 text-green-500 cursor-pointer text-xl">
+                <button
+                  className="absolute bottom-3 right-10 text-green-500 cursor-pointer text-xl"
+                  onClick={() => {
+                    editDiary(items.id);
+                  }}
+                >
                   <MdModeEdit />
                 </button>
               </div>

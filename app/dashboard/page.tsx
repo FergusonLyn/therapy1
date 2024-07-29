@@ -38,7 +38,7 @@ const Page = () => {
         <div className="w-full rounded-md mt-5 p-4 md:p-8 md:mt-10 md:h-[1100px]">
           <div className="flex flex-col md:flex-row text-sm h-full gap-4 p-4">
             {/* Grid one */}
-            <div className="colOne h-full w-1/3 p-4" style={glassmorphicStyle}>
+            <div className="colOne h-full w-1/3 rounded-md bg-white border-2 p-4 border-gray-200 shadow-sm m-3" >
               <h3 className="text-black text-lg flex justify-between items-center mb-4 font-bold">
                 Choose a Counselor
               </h3>
@@ -113,34 +113,23 @@ const Page = () => {
 
             {/* Grid two */}
             <div className="colTwo h-full w-2/3 p-2">
-              <div
-                className="p-5 rounded-md md:h-1/3 mt-4"
-                style={glassmorphicStyle}
-              >
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {[
-                    "Depression",
-                    "Anxiety",
-                    "Substance Abuse",
-                    "Anger",
-                    "Self Confidence",
-                    "Grief and Loss",
-                    "Relationships",
-                    "Stress Management",
-                  ].map((treatment, index) => (
-                    <div
-                      key={index}
-                      className="bg-white text-black p-4 rounded-md text-center font-semibold text-sm cursor-pointer"
-                    >
-                      {treatment}
+                  <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 h-[350px]">
+                    <div className="flex flex-row">
+                        <h1 className="font-semibold text-lg m-2">Your Appointments</h1>
+                        <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
+                          See All
+                        </span>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <hr />
 
-              <div
-                className="p-5 rounded-md md:h-1/2 mt-4"
-                style={glassmorphicStyle}
+                
+            
+            </div>
+
+
+            <div
+                className="rounded-md bg-white border-2 p-4 border-gray-200 shadow-sm m-3"
+               
               >
                 <h3 className="text-black text-lg flex justify-between items-center mb-4 font-bold">
                   Book Appointment

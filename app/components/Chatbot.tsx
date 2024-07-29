@@ -14,7 +14,7 @@ const Chatbot = () => {
     <div>
       {!showChatbot ? (
         <button
-          className="fixed right-5 bottom-5 h-12 w-12 text-white flex items-center justify-center bg-blue-600 rounded-full"
+          className="fixed right-5 bottom-5 h-12 w-12 text-white flex items-center justify-center bg-gray-950 rounded-full"
           onClick={toggleChatbot}
         >
           <MdOutlineModeComment className="absolute" />
@@ -23,7 +23,7 @@ const Chatbot = () => {
         <div
           className="fixed right-5 bottom-5 w-[350px] h-[480px] bg-white rounded-lg shadow-lg flex flex-col"
         >
-          <header className="bg-gray-700 p-4 text-center relative">
+          <header className="bg-gray-800 p-4 text-center relative">
             {/* <h2 className="text-white text-lg">Chatbot</h2> */}
             <span
               className="absolute right-5 top-1/2 transform -translate-y-1/2 text-white cursor-pointer"

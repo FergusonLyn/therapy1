@@ -96,7 +96,7 @@ export default function Home() {
                 Depression
               </div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
-                <div className="w-9 h-9 bg-black rounded-full ml-2"></div>
+                <div className="w-9 h-9 bg-gray-950 rounded-full ml-2"></div>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function Home() {
                 Anger Issues
               </div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
-                <div className="w-9 h-9 bg-black rounded-full ml-2"></div>
+                <div className="w-9 h-9 bg-gray-950 rounded-full ml-2"></div>
               </div>
             </div>
           </div>
@@ -140,7 +140,7 @@ export default function Home() {
                 Anxiety Issues
               </div>
               <div className="absolute top-6 right-6 w-14 h-12 rounded-lg bg-white">
-                <div className="w-9 h-9 bg-black rounded-full ml-2"></div>
+                <div className="w-9 h-9 bg-gray-950 rounded-full ml-2"></div>
               </div>
             </div>
           </div>

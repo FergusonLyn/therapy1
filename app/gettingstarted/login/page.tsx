@@ -65,7 +65,6 @@ const Login: React.FC = () => {
 
   const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((signInUser) => {
         const user = signInUser.user;
@@ -78,6 +77,7 @@ const Login: React.FC = () => {
           console.log("no role setted");
         }
         console.log(`User is a ${role}`);
+        setLoading(true);
       })
       .catch((error) => {
         console.log(error);
@@ -132,10 +132,7 @@ const Login: React.FC = () => {
           </div>
           <button
             type="submit"
-            onClick={handleClick}
-            className={`bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-3 font-bold text-[13px] ${
-              clicked ? "clicked" : ""
-            }`}
+            className={`bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-3 font-bold text-[13px] `}
           >
             {loading ? <Loader /> : "Sign In"}
           </button>

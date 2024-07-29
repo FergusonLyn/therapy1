@@ -96,7 +96,7 @@ const Page = () => {
           </div>
 
           {/* compose click session */}
-          <div className="md:text-xl sm:text-lg text-base font-bold py-2 p-6 rounded-md bg-blue-800  mt-4 text-white cursor-pointer">
+          <div className="md:text-xl sm:text-lg text-base font-bold py-2 p-6 rounded-md bg-gray-950  mt-4 text-white cursor-pointer">
             <Link href="./mydairy/compose" className="flex items-center gap-3">
               Compose
               <span className="h-14 flex items-center text-white text-2xl ">
@@ -114,10 +114,10 @@ const Page = () => {
           return (
             <div key={items.id} className="p-2 m-1 justify-center">
               <div className="h-[50px]  flex items-center gap-3 mb-1 font-bold">
-                <div className="bg-green-200 h-full rounded-md w-[120px] flex items-center p-2">
+                <div className="bg-slate-100 h-full rounded-md w-[120px] flex items-center p-2">
                   <span>{items.day}</span>
                 </div>
-                <div className="bg-pink-200 h-full rounded-md w-[100px] flex items-center p-2">
+                <div className="bg-slate-100 h-full rounded-md w-[100px] flex items-center p-2">
                   <span>{items.mood}</span>
                 </div>
               </div>
@@ -133,7 +133,7 @@ const Page = () => {
                   <FaTrashAlt />
                 </button>
                 <button
-                  className="absolute bottom-3 right-10 text-green-500 cursor-pointer text-xl"
+                  className="absolute bottom-3 right-10 text-gray-500 cursor-pointer text-xl"
                   onClick={() => {
                     editDiary(items.id);
                   }}

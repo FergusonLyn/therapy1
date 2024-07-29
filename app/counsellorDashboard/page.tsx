@@ -275,7 +275,7 @@ const page = () => {
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Patient Chats</h1>
 
-            <span className="ml-auto m-2 h-6 flex items-center text-purple-600 text-2xl cursor-pointer">
+            <span className="ml-auto m-2 h-6 flex items-center text-gray-950 text-2xl cursor-pointer">
               <IoIosSend />
             </span>
           </div>

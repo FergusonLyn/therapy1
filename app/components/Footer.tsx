@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -14,9 +15,15 @@ const Footer = () => {
                 <div className='lg:col-span-2 flex justify-between'>
                   <div>
                     <ul>
-                      <li className='py-2 text-sm'>About Us</li>
-                      <li className='py-2 text-sm'>Services </li>
-                      <li className='py-2 text-sm'>Contact Us</li>
+                      <li className="py-2 text-sm">
+                        <Link href="./about">About Us</Link>
+                      </li>
+                      <li className="py-2 text-sm">
+                        <Link href="./services">Services</Link>
+                      </li>
+                      <li className="py-2 text-sm">
+                        <Link href="./contact">Contact Us</Link>
+                      </li>
                     </ul>
                   </div>
                   <div>

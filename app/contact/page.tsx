@@ -6,7 +6,7 @@ import Header from "../components/Header";
 const page = () => {
   return (
     <>
-      {/* <div className='fixed top-4 left-4 flex items-center bg-white p-2 rounded-md border border-gray-300 hover:bg-gray-100 cursor-pointer transition-colors'>
+      <div className='fixed top-8 left-8 flex items-center bg-white p-2 rounded-md border hover:bg-gray-100 cursor-pointer transition-colors'>
       
         <IoArrowBack className='text-gray-600 text-lg mr-2' />
         <span className='text-gray-600 text-sm font-medium'>
@@ -16,7 +16,7 @@ const page = () => {
         </span>
       
       
-    </div> */}
+    </div>
 
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 m-4">

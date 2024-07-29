@@ -7,6 +7,7 @@ import DashboardHeader from "../components/DashboardHeader";
 import CalendarWidget from "../components/CalendarWidget";
 import TimeWidget from "../components/TimeWidget";
 import { Loader } from "../components/Loader";
+import Chatbot from "../components/Chatbot";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
@@ -156,6 +157,9 @@ const Page = () => {
             </div>
           </div>
         </div>
+        <div>
+           <Chatbot />
+          </div>
       </div>
       {/* )} */}
     </>

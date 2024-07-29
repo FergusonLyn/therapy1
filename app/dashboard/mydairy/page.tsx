@@ -96,7 +96,7 @@ const Page = () => {
           </div>
 
           {/* compose click session */}
-          <div className="md:text-xl sm:text-lg text-base font-bold py-2 p-6 rounded-md bg-blue-600  mt-4 text-white cursor-pointer">
+          <div className="md:text-xl sm:text-lg text-base font-bold py-2 p-6 rounded-md bg-blue-800  mt-4 text-white cursor-pointer">
             <Link href="./mydairy/compose" className="flex items-center gap-3">
               Compose
               <span className="h-14 flex items-center text-white text-2xl ">

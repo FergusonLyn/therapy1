@@ -78,7 +78,7 @@ const CDashboardHeader = () => {
             <div className="flex items-center">
               {!isOpen && (
                 <div className="text-lg font-bold">
-                  <Link href="./">Logo</Link>
+                  <Link href="./">K-HEALTH</Link>
                 </div>
               )}
               <button

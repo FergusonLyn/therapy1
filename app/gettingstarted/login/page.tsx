@@ -124,7 +124,7 @@ const Login: React.FC = () => {
 
             <button
               type="button" // Prevent form submission on click
-              className="absolute top-10 left-[370px]"
+              className="absolute top-11 left-[365px]"
               onClick={togglePasswordVisibility}
             >
               {isPasswordVisible ? <IoEyeOutline /> : <FaRegEyeSlash />}

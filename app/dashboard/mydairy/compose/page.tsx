@@ -15,15 +15,10 @@ const page = () => {
   const [mood, setMood] = useState(currentMood || "");
   const [note, setNote] = useState(currentNote || "");
   const [title, setTitle] = useState(currentTitle || "");
-  const [diaryId, setDiaryId] = useState(currentId);
 
   const handleComboboxChange = (value: string | any) => {
     setMood(value);
   };
-
-  useEffect(() => {
-    setDiaryId(currentId); // Update state when context changes
-  }, [currentId]);
 
   const createDocument = async () => {
     const auth = getAuth();
@@ -68,7 +63,7 @@ const page = () => {
             console.error("Diary ID is undefined");
             return;
           }
-          const diaryDocRef = doc(db, "mydiaries", diaryId);
+          const diaryDocRef = doc(db, "mydiaries", currentId);
           await updateDoc(diaryDocRef, {
             userId,
             mood: mood,
@@ -93,8 +88,11 @@ const page = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isEditting) {
-      console.log(currentId);
-      updateDocument(diaryId);
+      if (!currentId) {
+        console.error("No diary ID available for editing");
+        return;
+      }
+      updateDocument(currentId);
     } else {
       createDocument();
     }
@@ -137,10 +135,11 @@ const page = () => {
             }}
           ></textarea>
           <div className="flex">
-            <Link href="./" className="text-black font-bold">
-              <button className="bg-[#e2e2e2] w-1/2 py-3 m-2 rounded-[10px] mb-3 font-bold text-[13px]  hover:bg-red-300">
-                Back
-              </button>
+            <Link
+              href="./"
+              className="text-black text-center  bg-[#e2e2e2] w-1/2 py-3 m-2 rounded-[10px] mb-3 font-bold text-[13px]  hover:bg-red-300"
+            >
+              Back
             </Link>
             <button
               type="submit"

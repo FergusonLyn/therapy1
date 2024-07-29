@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
@@ -37,7 +37,7 @@ export const DiaryContextProvider = ({ children }: { children: ReactNode }) => {
         setCurrentMood(data.mood);
         setCurrentNote(data.note);
         setCurrentTitle(data.title);
-        setCurrentId(data.id);
+        setCurrentId(diaryDoc.id);
         setIsEditting(true);
         console.log(currentId);
       }
@@ -45,6 +45,9 @@ export const DiaryContextProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {}
   };
 
+  useEffect(() => {
+    console.log(currentId);
+  }, [currentId]);
   return (
     <DiaryContext.Provider
       value={{

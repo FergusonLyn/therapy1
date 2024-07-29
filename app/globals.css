@@ -22,7 +22,7 @@
 }
 
 .clicked {
-  @apply bg-gray-400 transform scale-105;
+  @apply bg-gray-400 transform scale-90;
 }
 
 /* Flex container */
@@ -30,17 +30,27 @@
   @apply flex justify-center items-center;
 }
 
-/* Input styles */
-.input {
-  @apply w-full px-8 py-3 mb-8 border-2 border-gray-300 rounded-lg;
-  background-color: transparent; /* Tailwind doesn't have `background-color: none` directly */
+.div-input {
+  @apply flex justify-between items-center gap-6;
 }
 
-.input:focus {
+/* Input styles */
+.input {
+  @apply w-full px-4 py-3 mb-8 border-2 border-gray-300 rounded-lg mt-1;
+  background-color: transparent; /* Tailwind doesn't have `background-color: none` directly */
+}
+.counsellor-input {
+  @apply px-4 py-3 mb-8 border-2 border-gray-300 rounded-lg mt-1;
+  background-color: transparent;
+}
+
+.input:focus,
+.counsellor-input {
   @apply outline-none;
 }
 
-.input::placeholder {
+.input::placeholder,
+.counsellor-input::placeholder {
   @apply text-gray-300 text-sm;
 }
 
@@ -65,14 +75,18 @@ body {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: conic-gradient(#0000 10%,#474bff);
-  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3.8px),#000 0);
+  background: conic-gradient(#0000 10%, #474bff);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(100% - 3.8px),
+    #000 0
+  );
   animation: spinner-zp9dbg 1s infinite linear;
 }
 
 @keyframes spinner-zp9dbg {
   to {
-     transform: rotate(1turn);
+    transform: rotate(1turn);
   }
 }
 
@@ -94,7 +108,6 @@ Optional: Uncomment and adjust height classes as needed
   @apply h-[1015px];
 }
 */
-
 
 /* @tailwind base;
 @tailwind components;
@@ -157,8 +170,8 @@ body {
 } */
 
 /* .header { */
-  /* height: 500px; */
-  /* background-image: url('https://kcc.knust.edu.gh/sites/kcc.knust.edu.gh/files/2023-01/about-kcc.jpg');
+/* height: 500px; */
+/* background-image: url('https://kcc.knust.edu.gh/sites/kcc.knust.edu.gh/files/2023-01/about-kcc.jpg');
   background-size: cover; */
 /* } */
 
@@ -177,4 +190,3 @@ body {
 .teams{
   height: 1015px;
 } */
-

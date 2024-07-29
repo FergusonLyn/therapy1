@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { UserContextProvider } from "./contexts/userContext";
 import "./globals.css";
+import { DiaryContextProvider } from "./contexts/diaryContext";
+import { CounsellorProvider } from "./contexts/counsellorContext";
 
 const poppins = Poppins({ weight: "300", subsets: ["latin"] });
 
@@ -18,7 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <UserContextProvider>
-        <body className={poppins.className}>{children}</body>
+        <DiaryContextProvider>
+          <CounsellorProvider>
+            <body className={poppins.className}>{children}</body>
+          </CounsellorProvider>
+        </DiaryContextProvider>
       </UserContextProvider>
     </html>
   );

@@ -5,26 +5,27 @@ import Link from "next/link";
 import { useContext } from "react";
 import { userAuthContext } from "../contexts/userContext";
 
-
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isStudentAuthenticated, setIsStudentAuthenticated] = useState(false);
   const [isCounsellorAuthenticated, setIsCounsellorAuthenticated] =
     useState(false);
 
- const context = useContext(userAuthContext);
+  const context = useContext(userAuthContext);
 
- if (!context) {
-  throw new Error('userAuthContext must be used within a UserContextProvider');
-}
+  if (!context) {
+    throw new Error(
+      "userAuthContext must be used within a UserContextProvider"
+    );
+  }
 
- const { user, loading } = context;
+  const { user, loading } = context;
 
   useEffect(() => {
     if (!loading && user) {
       if (user.role === "student") {
         setIsStudentAuthenticated(true);
-      } else if (user.role === "counselor") {
+      } else if (user.role === "counsellor") {
         setIsCounsellorAuthenticated(true);
       } else {
         setIsStudentAuthenticated(false);
@@ -96,9 +97,9 @@ const Header = () => {
             </li>
             <li className="py-2 md:py-0 md:ml-auto">
               {isStudentAuthenticated ? (
-                <Link href={"/dashboard"}>Go to Dashboard</Link>
+                <Link href={"/dashboard"}>Dashboard</Link>
               ) : isCounsellorAuthenticated ? (
-                <Link href={"/counsellorDashboard"}>Go to Dashboard</Link>
+                <Link href={"/counsellorDashboard"}>Dashboard</Link>
               ) : (
                 <Link href="./gettingstarted">Get Started</Link>
               )}

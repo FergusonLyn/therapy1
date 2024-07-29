@@ -1,7 +1,17 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+"use client";
+import React, {
+  useState,
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useContext,
+} from "react";
+import { useSearchParams } from "next/navigation";
 import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useRouter } from "next/navigation";
+import { db, auth } from "../../firebase"; // Adjust the path to your firebase config file
+import { CounsellorContext } from "@/app/contexts/counsellorContext";
 
 // Define the type for form data
 interface FormData {
@@ -11,13 +21,9 @@ interface FormData {
   message: string;
 }
 
-// Define a type for the selected counsellor ID
-interface PageProps {
-  selectedCounsellorId: string; // You should pass this as a prop or get it from your context
-}
+const AppointmentPage: React.FC = () => {
+  const counsellorId = useSearchParams().get("counsellorid");
 
-const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
-  // Initialize state with the FormData type
   const [formData, setFormData] = useState<FormData>({
     name: "",
     help: "",
@@ -25,39 +31,35 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
     message: "",
   });
 
-  // Handle input changes
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const router = useRouter();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     try {
-      // Get current user ID
-      const auth = getAuth();
       const user = auth.currentUser;
+      console.log(counsellorId);
       if (!user) {
-        throw new Error("User not authenticated");
+        throw new Error("User not authenticated ");
       }
-      const userId = user.uid;
+      if (!counsellorId) {
+        throw new Error("no counsellor id  ");
+      }
+      const appointmentId = `${user.uid}_${counsellorId}`;
 
-      // Generate document ID by combining user ID and selected counsellor ID
-      const appointmentId = `${userId}_${selectedCounsellorId}`;
-
-      // Store the form data in Firestore
       await setDoc(doc(db, "appointments", appointmentId), {
         ...formData,
-        userId,
-        counsellorId: selectedCounsellorId,
+        userId: user.uid,
+        counsellorId: counsellorId,
         timestamp: new Date(),
       });
 
-      // Clear the form or show a success message
       setFormData({
         name: "",
         help: "",
@@ -65,6 +67,7 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
         message: "",
       });
       alert("Appointment scheduled successfully!");
+      router.push("/counsellors");
     } catch (error) {
       console.error("Error scheduling appointment:", error);
       alert("Failed to schedule appointment. Please try again.");
@@ -75,11 +78,7 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center">
       <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 m-4">
         <h1 className="text-2xl font-bold mb-4">Schedule Appointment</h1>
-        <p className="text-gray-600 mb-6">
-          Schedule an appointment with your counsellor
-        </p>
         <form onSubmit={handleSubmit}>
-          {/* Name Field */}
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-semibold mb-2">
               Name
@@ -96,7 +95,6 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
             />
           </div>
 
-          {/* Concern Type Field */}
           <div className="mb-4">
             <label htmlFor="help" className="block text-sm font-semibold mb-2">
               State Your Concern Type
@@ -113,7 +111,6 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
             />
           </div>
 
-          {/* Date and Time Field */}
           <div className="mb-4">
             <label
               htmlFor="datetime"
@@ -132,7 +129,6 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
             />
           </div>
 
-          {/* Message Field */}
           <div className="mb-4">
             <label
               htmlFor="message"
@@ -148,10 +144,9 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
               required
               value={formData.message}
               onChange={handleChange}
-            ></textarea>
+            />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -164,4 +159,4 @@ const Page: React.FC<PageProps> = ({ selectedCounsellorId }) => {
   );
 };
 
-export default Page;
+export default AppointmentPage;

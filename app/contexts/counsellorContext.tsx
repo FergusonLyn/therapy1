@@ -25,6 +25,7 @@ export const CounsellorContext = createContext<CounsellorContext>({
 
 export const CounsellorProvider = ({ children }: { children: ReactNode }) => {
   const [counsellors, setCounsellors] = useState<Counsellor[]>([]);
+  const [counsellorId, setCounsellorId] = useState("");
 
   useEffect(() => {
     const getCounsellors = async () => {
@@ -44,6 +45,7 @@ export const CounsellorProvider = ({ children }: { children: ReactNode }) => {
           }));
           setCounsellors(counsellorArray);
           console.log("It worked");
+          console.log(counsellorArray);
         }
       } catch (error) {
         console.log(error);

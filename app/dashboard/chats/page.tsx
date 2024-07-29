@@ -14,9 +14,6 @@ const Page: React.FC = () => {
       <div className="w-full h-[600px] mt-4 grid grid-cols-1 md:grid-cols-4">
         <div className="md:col-span-1  bg-gray-800 ">
           <ChatSidebar setActiveChat={setActiveChat} />
-          <div>
-            <Chatbot />
-          </div>
         </div>
         <div className="md:col-span-3 bg-gray-50 flex flex-col">
           {activeChat ? <ChatWindow activeChat={activeChat} /> : <p className="p-4">Select a chat to start messaging</p>}

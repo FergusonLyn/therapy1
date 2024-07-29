@@ -7,7 +7,14 @@ import Link from "next/link";
 import TodayDate from "../components/TodayDate";
 import PatientsRatingHistogram from "../components/PatientsRatingHistogram";
 import { userAuthContext } from "../contexts/userContext";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { db, auth } from "../firebase";
 
 const page = () => {
@@ -42,33 +49,6 @@ const page = () => {
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // useEffect(() => {
-  //   const fetchAppointmentInfo = async () => {
-  //     const userId = context.user?.id;
-  //     console.log("Fetching appointment info for user:", userId);
-  //     if (!userId) {
-  //       console.log("User ID not found. Exiting.");
-  //       return;
-  //     }
-  //     const appointmentsRef = collection(db, "appointments");
-  //     const q = query(appointmentsRef, where("counsellorId", "==", userId));
-  //     const querySnapshot = await getDocs(q);
-
-  //     console.log("Query snapshot:", querySnapshot);
-  //     const appointmentInfo = querySnapshot.docs.map((doc) => ({
-  //       name: doc.data().name,
-  //       help: doc.data().help,
-  //       time: doc.data().datetime,
-  //       id: doc.id,
-  //     }));
-
-  //     console.log("Appointment info:", appointmentInfo);
-  //     setAppointmentInfo(appointmentInfo);
-  //   };
-
-  //   fetchAppointmentInfo();
-  // }, []);
-
   useEffect(() => {
     const fetchAppointmentInfo = async () => {
       const userId = auth.currentUser?.uid;
@@ -98,6 +78,32 @@ const page = () => {
 
     fetchAppointmentInfo();
   }, [context?.user?.id]);
+
+  const handleAccept = async (userId: string) => {
+    try {
+      const appointmentRef = doc(db, "appointments", userId);
+      await updateDoc(appointmentRef, {
+        accepted: true,
+        declined: false,
+      });
+      console.log("appointment accepted");
+    } catch (error) {
+      console.error("Error accepting appointment:", error);
+    }
+  };
+
+  const handleDecline = async (userId: string) => {
+    try {
+      const appointmentRef = doc(db, "appointments", userId);
+      await updateDoc(appointmentRef, {
+        accepted: false,
+        declined: true,
+      });
+      console.log("appointment declined");
+    } catch (error) {
+      console.error("Error declining appointment:", error);
+    }
+  };
 
   return (
     <div>
@@ -141,7 +147,7 @@ const page = () => {
       </div>
 
       <div className="first grid grid-cols-1 md:grid-cols-2 mt-6">
-        <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 h-[300px]">
+        <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Your Patients Today</h1>
             <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
@@ -150,7 +156,7 @@ const page = () => {
           </div>
           <hr />
 
-          {appointmentInfo.map((appointment) => (
+          {appointmentInfo.slice(0, 2).map((appointment) => (
             <div
               key={appointment.id}
               className="flex items-center justify-between p-4 m-3 rounded-md "
@@ -159,7 +165,7 @@ const page = () => {
                 <p className="text-sm">{appointment.time}</p>
               </div>
               <div className="flex items-center flex-grow justify-center">
-                <div className="flex items-center border-2 border-gray-600 p-2 rounded-full">
+                <div className="flex items-center border-2 border-gray-600 px-2 rounded-full">
                   <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                     <Image
                       src="/profile.jpg"
@@ -217,7 +223,7 @@ const page = () => {
 
       {/* therapy requests div session */}
       <div className="first grid grid-cols-1 md:grid-cols-2 mt-6">
-        <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 h-[300px]">
+        <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 ">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Session Requests</h1>
             <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
@@ -225,67 +231,43 @@ const page = () => {
             </span>
           </div>
           <hr />
-
-          {/* requests for therapy's appointments */}
-          <div className="flex items-center justify-between p-4 m-3 rounded-md ">
-            <div className="flex-shrink-0">
-              <p className="text-sm text-gray-400">10:00am</p>
-            </div>
-            <div className="flex items-center flex-grow justify-center">
-              <div className="flex items-center border-2 border-gray-600 p-2 rounded-full">
-                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
-                  <Image
-                    src="/profile.jpg"
-                    alt="profile picture"
-                    className="w-full h-full object-cover rounded-md"
-                    width={40} // Set the desired width
-                    height={40} // Set the desired height
-                  />
+          {appointmentInfo.slice(0, 2).map((appointment) => (
+            <div className="flex items-center justify-between p-4 m-3 rounded-md ">
+              <div className="flex-shrink-0">
+                <p className="text-sm text-gray-400">{appointment.time}</p>
+              </div>
+              <div className="flex items-center flex-grow justify-center">
+                <div className="flex items-center border-2 border-gray-600 px-2 rounded-full">
+                  <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                    <Image
+                      src="/profile.jpg"
+                      alt="profile picture"
+                      className="w-full h-full object-cover rounded-md"
+                      width={40} // Set the desired width
+                      height={40} // Set the desired height
+                    />
+                  </div>
+                  <p className="text-lg font-semibold ">{appointment.name}</p>
                 </div>
-                <p className="text-lg font-semibold ">Grace Yankey Esi</p>
               </div>
-            </div>
-            <div className="flex-shrink-0 flex items-center">
-              <div className="flex space-x-2">
-                <button className="border-2  py-2 px-4 rounded-md hover:font-semibold hover:text-green-300 ">
-                  Accept
-                </button>
-                <button className="border-2 py-2 px-4 rounded-md hover:font-semibold hover:text-red-300  ">
-                  Decline
-                </button>
-              </div>
-            </div>
-          </div>
-          {/* requests for therapy's appointments */}
-          <div className="flex items-center justify-between p-4 m-3 rounded-md ">
-            <div className="flex-shrink-0">
-              <p className="text-sm text-gray-400">10:00am</p>
-            </div>
-            <div className="flex items-center flex-grow justify-center">
-              <div className="flex items-center border-2 border-gray-600 p-2 rounded-full">
-                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
-                  <Image
-                    src="/profile.jpg"
-                    alt="profile picture"
-                    className="w-full h-full object-cover rounded-md"
-                    width={40} // Set the desired width
-                    height={40} // Set the desired height
-                  />
+              <div className="flex-shrink-0 flex items-center">
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleAccept(appointment.id)}
+                    className="border-2  py-2 px-4 rounded-md hover:font-semibold hover:text-green-300 "
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleDecline(appointment.id)}
+                    className="border-2 py-2 px-4 rounded-md hover:font-semibold hover:text-red-300  "
+                  >
+                    Decline
+                  </button>
                 </div>
-                <p className="text-lg font-semibold ">Grace Yankey Esi</p>
               </div>
             </div>
-            <div className="flex-shrink-0 flex items-center">
-              <div className="flex space-x-2">
-                <button className="border-2  py-2 px-4 rounded-md hover:font-semibold hover:text-green-300 ">
-                  Accept
-                </button>
-                <button className="border-2 py-2 px-4 rounded-md hover:font-semibold hover:text-red-300  ">
-                  Decline
-                </button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* chats */}

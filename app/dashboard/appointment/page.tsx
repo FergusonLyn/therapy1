@@ -12,6 +12,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { db, auth } from "../../firebase"; // Adjust the path to your firebase config file
 import { CounsellorContext } from "@/app/contexts/counsellorContext";
+import { v4 as uuidv4 } from "uuid";
 
 // Define the type for form data
 interface FormData {
@@ -52,11 +53,14 @@ const AppointmentPage: React.FC = () => {
         throw new Error("no counsellor id  ");
       }
       const appointmentId = `${user.uid}_${counsellorId}`;
-
-      await setDoc(doc(db, "appointments", appointmentId), {
+      const newId = uuidv4();
+      await setDoc(doc(db, "appointments", newId), {
         ...formData,
         userId: user.uid,
+        appointmentId: appointmentId,
         counsellorId: counsellorId,
+        accepted: false,
+        declined: false,
         timestamp: new Date(),
       });
 

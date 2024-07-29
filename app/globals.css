@@ -22,7 +22,7 @@
 }
 
 .clicked {
-  @apply bg-gray-400 transform scale-90;
+  @apply bg-gray-400;
 }
 
 /* Flex container */

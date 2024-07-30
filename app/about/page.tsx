@@ -109,7 +109,7 @@ const AboutUS = () => {
                 ensures you have the support you need every step of the way. Join us in creating a healthier, 
                 happier you.
                 </p>
-                <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mt-4 md:mt-16">
+                <button className="rounded-3xl bg-blue-800 text-white text-xs h-10 w-24 mt-4 md:mt-16">
                   Services
                 </button>
           </div>

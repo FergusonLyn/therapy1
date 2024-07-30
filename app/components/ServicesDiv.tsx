@@ -2,10 +2,10 @@ import React from 'react'
 
 const ServicesDiv = () => {
   return (
-    <div className="bg-pink-100 rounded-md mt-2 p-4">
+    <div className="bg-slate-50 rounded-md mt-2 p-4">
         <div className="flex flex-col md:flex-row text-sm p-8">
           <div className="h-full w-full md:w-3/4 p-7 flex flex-col justify-center">
-            <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-16">
+            <button className="rounded-3xl bg-blue-800 text-white text-xs h-10 w-24 mb-16">
               Services
             </button>
             <h1 className="font-semibold text-2xl mb-4">

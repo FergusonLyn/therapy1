@@ -33,7 +33,7 @@ export default function Home() {
           </p>
 
           {/* button for signing in */}
-          <button className="rounded-3xl bg-gray-950 text-white text-sm h-11 w-36 mb-5">
+          <button className="rounded-3xl bg-blue-800 text-white text-sm h-11 w-36 mb-5">
             Get Started
           </button>
 
@@ -148,10 +148,10 @@ export default function Home() {
       </div>
 
       {/* a div on how site works */}
-      <div className="bg-pink-100 rounded-md mt-2 p-4">
+      <div className="bg-slate-50 rounded-md mt-2 p-4">
         <div className="flex flex-col md:flex-row text-sm p-8">
           <div className="h-full w-full md:w-3/4 p-7 flex flex-col justify-center">
-            <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mb-16">
+            <button className="rounded-3xl bg-blue-800 text-white text-xs h-10 w-24 mb-16">
               Services
             </button>
             <h1 className="font-semibold text-2xl mb-4">
@@ -180,7 +180,7 @@ export default function Home() {
             ensures you have the support you need every step of the way. Join us in creating a healthier, 
             happier you.
             </p>
-            <button className="rounded-3xl bg-gray-950 text-white text-xs h-10 w-24 mt-4 md:mt-16">
+            <button className="rounded-3xl bg-blue-800 text-white text-xs h-10 w-24 mt-4 md:mt-16">
               Services
             </button>
           </div>

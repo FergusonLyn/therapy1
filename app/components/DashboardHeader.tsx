@@ -110,16 +110,16 @@ const DashboardHeader = () => {
             <Link href="./">Dashboard</Link>
           </li>
           <li className="py-2 md:py-0">
-            <Link href="./dashboard/counsellors">Counsellors</Link>
+            <Link href="/dashboard/counsellors">Counsellors</Link>
           </li>
           <li className="py-2 md:py-0">
-            <Link href="./dashboard/chats">Chats</Link>
+            <Link href="/dashboard/chats">Chats</Link>
           </li>
           <li className="py-2 md:py-0">
-            <Link href="./dashboard/mydairy">My Diary</Link>
+            <Link href="/dashboard/mydairy">My Diary</Link>
           </li>
           <li className="py-2 md:py-0">
-            <Link href="./dashboard/blogs">Blogs</Link>
+            <Link href="/dashboard/blogs">Blogs</Link>
           </li>
         </ul>
         <div className="flex items-center space-x-4">

@@ -51,7 +51,7 @@ const Page = () => {
               key={counsellor.id}
               className="w-full md:w-2/3 shadow-lg h-auto m-4 flex rounded-md bg-white border-2 border-gray-200"
             >
-              <div className="flex-1 p-4">
+              <div className="flex-1 p-6 ml-9">
                 <div className="bg-blue-500 rounded-full w-36 h-36 mb-6 flex items-center justify-center text-white">
                   <Image
                     src={counsellor.data.image}
@@ -73,13 +73,13 @@ const Page = () => {
                 <div>
                   <button
                     onClick={() => handleAppointmentClick(counsellor.id)}
-                    className="border-2 border-blue-500 w-auto flex justify-center items-center rounded-md m-2 font-semibold cursor-pointer"
+                    className="border-2 border-blue-500 w-auto flex justify-center items-center rounded-md m-2 ml-4 font-semibold cursor-pointer"
                   >
                     Appointment
                   </button>
                 </div>
               </div>
-              <div className="flex-2 p-4">
+              <div className="flex-2 p-4 w-2/3">
                 <h2 className="font-bold text-xl mb-2">
                   {counsellor.data.name}
                 </h2>

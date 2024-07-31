@@ -19,6 +19,7 @@ interface FormData {
   name: string;
   help: string;
   datetime: string;
+  meetingType: string;
   message: string;
 }
 
@@ -29,6 +30,7 @@ const AppointmentPage: React.FC = () => {
     name: "",
     help: "",
     datetime: "",
+    meetingType: "",
     message: "",
   });
 
@@ -68,6 +70,7 @@ const AppointmentPage: React.FC = () => {
         name: "",
         help: "",
         datetime: "",
+        meetingType: "",
         message: "",
       });
       alert("Appointment scheduled successfully!");
@@ -131,6 +134,35 @@ const AppointmentPage: React.FC = () => {
               value={formData.datetime}
               onChange={handleChange}
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-semibold mb-2">
+              Online or In person
+            </label>
+            <div>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="meetingType"
+                  value="Online"
+                  className="form-radio"
+                  onChange={handleChange}
+                />
+                <span className="ml-2 font-semibold">Online</span>
+              </label>
+            </div>
+            <div>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="meetingType"
+                  value="In person"
+                  className="form-radio"
+                  onChange={handleChange}
+                />
+                <span className="ml-2 font-semibold">In person</span>
+              </label>
+            </div>
           </div>
 
           <div className="mb-4">

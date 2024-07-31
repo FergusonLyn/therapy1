@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/app/components/DashboardHeader";
 import { CounsellorContext } from "@/app/contexts/counsellorContext";
+import { auth } from "../../firebase";
 
 const Page = () => {
   const { counsellors } = useContext(CounsellorContext);
@@ -15,6 +16,11 @@ const Page = () => {
   const router = useRouter();
   const handleAppointmentClick = (counsellorId: string) => {
     router.push(`/dashboard/appointment?counsellorid=${counsellorId}`); // Navigate to the appointment page
+  };
+  const handleChatClick = (counsellorId: string) => {
+    router.push(
+      `/dashboard/chats?counsellorid=${counsellorId}studentid=${auth.currentUser?.uid}`
+    ); // Navigate to the chat page
   };
 
   return (
@@ -60,7 +66,9 @@ const Page = () => {
                   <a href="tel:+233256778060">
                     <IoCall className="text-blue-500 w-5 h-5 cursor-pointer" />
                   </a>
-                  <BsChatRightDotsFill className="text-blue-500 w-5 h-5 cursor-pointer" />
+                  <button onClick={() => handleChatClick(counsellor.id)}>
+                    <BsChatRightDotsFill className="text-blue-500 w-5 h-5 cursor-pointer" />
+                  </button>
                 </div>
                 <div>
                   <button

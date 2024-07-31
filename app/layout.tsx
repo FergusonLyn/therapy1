@@ -4,6 +4,7 @@ import { UserContextProvider } from "./contexts/userContext";
 import "./globals.css";
 import { DiaryContextProvider } from "./contexts/diaryContext";
 import { CounsellorProvider } from "./contexts/counsellorContext";
+import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 
 const poppins = Poppins({ weight: "300", subsets: ["latin"] });
 

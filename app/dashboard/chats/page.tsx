@@ -29,6 +29,7 @@
 //   Query,
 //   QuerySnapshot,
 // } from "firebase/firestore";
+// import CDashboardHeader from "@/app/components/CDashboardHeader";
 
 // interface ChatMessage {
 //   id: string;
@@ -42,13 +43,18 @@
 // const Page: React.FC = () => {
 //   const [messages, setMessages] = useState<ChatMessage[]>([]);
 //   const [inputMessage, setInputMessage] = useState("");
-//   const [currentStudentId, setCurrentStudentId] = useState<string | null>(null);
 
 //   const searchParams = useSearchParams();
 //   const counsellorId = searchParams.get("counsellorid");
+//   const currentStudentId = searchParams.get("studentid");
+
 //   const context = useContext(userAuthContext);
 
 //   useEffect(() => {
+//     console.log("Current user role:", context?.user?.role);
+//     console.log("Current user ID:", auth.currentUser?.uid);
+//     console.log("Counsellor ID:", counsellorId);
+
 //     let q: Query<DocumentData>;
 //     if (context?.user?.role === "student") {
 //       q = query(
@@ -64,7 +70,6 @@
 //         orderBy("sentTime")
 //       );
 //     } else {
-//       // Default query if role is neither student nor counsellor
 //       q = query(collection(db, "chats"), orderBy("sentTime"));
 //     }
 
@@ -79,55 +84,20 @@
 //             } as ChatMessage)
 //         );
 //         setMessages(newMessages);
-
-//         // Set the current student ID for the counsellor
-//         if (context?.user?.role === "counsellor" && newMessages.length > 0) {
-//           setCurrentStudentId(newMessages[newMessages.length - 1].userId);
-//         }
 //       }
 //     );
 
 //     return () => unsubscribe();
-//   }, [context?.user?.role, counsellorId]);
-
-//   const handleStudentSendMessage = async () => {
-//     if (inputMessage.trim() === "") return;
-
-//     try {
-//       await addDoc(collection(db, "chats"), {
-//         userId: auth.currentUser?.uid,
-//         counsellorId: counsellorId,
-//         message: inputMessage,
-//         sentTime: new Date().toISOString(),
-//         sender: "Student",
-//       });
-//       setInputMessage("");
-//     } catch (error) {
-//       console.error("Error adding message: ", error);
-//     }
-//   };
-
-//   const handleCounsellorSendMessage = async () => {
-//     if (inputMessage.trim() === "" || !currentStudentId) return;
-
-//     try {
-//       await addDoc(collection(db, "chats"), {
-//         userId: currentStudentId,
-//         counsellorId: auth.currentUser?.uid,
-//         message: inputMessage,
-//         sentTime: new Date().toISOString(),
-//         sender: "Counsellor",
-//       });
-//       setInputMessage("");
-//     } catch (error) {
-//       console.error("Error adding message: ", error);
-//     }
-//   };
+//   }, [context?.user?.role, counsellorId, auth.currentUser?.uid]);
 
 //   return (
 //     <div style={{ position: "relative", height: "500px" }}>
 //       <div className="mb-16">
-//         <DashboardHeader />
+//         {context?.user?.role === "student" ? (
+//           <DashboardHeader />
+//         ) : (
+//           <CDashboardHeader />
+//         )}
 //       </div>
 //       <MainContainer>
 //         <Sidebar position="left">
@@ -219,6 +189,7 @@ import {
   Query,
   QuerySnapshot,
 } from "firebase/firestore";
+import CDashboardHeader from "@/app/components/CDashboardHeader";
 
 interface ChatMessage {
   id: string;
@@ -232,16 +203,22 @@ interface ChatMessage {
 const Page: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [chatPartner, setChatPartner] = useState<{
+    name: string;
+    id: string;
+  } | null>(null);
   const [currentStudentId, setCurrentStudentId] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const counsellorId = searchParams.get("counsellorid");
+
   const context = useContext(userAuthContext);
 
   useEffect(() => {
     console.log("Current user role:", context?.user?.role);
     console.log("Current user ID:", auth.currentUser?.uid);
     console.log("Counsellor ID:", counsellorId);
+    console.log("Current Student ID:", currentStudentId);
 
     let q: Query<DocumentData>;
     if (context?.user?.role === "student") {
@@ -251,12 +228,47 @@ const Page: React.FC = () => {
         where("counsellorId", "==", counsellorId),
         orderBy("sentTime")
       );
+      // Fetch counsellor details
+      if (counsellorId) {
+        getDocs(query(collection(db, "users"), where("id", "==", counsellorId)))
+          .then((snapshot) => {
+            if (!snapshot.empty) {
+              const counsellorData = snapshot.docs[0].data();
+              setChatPartner({
+                name: counsellorData.fullName,
+                id: counsellorId,
+              });
+            }
+          })
+          .catch((error) =>
+            console.error("Error fetching counsellor details:", error)
+          );
+      }
     } else if (context?.user?.role === "counsellor") {
       q = query(
         collection(db, "chats"),
         where("counsellorId", "==", auth.currentUser?.uid),
+        where("userId", "==", currentStudentId),
         orderBy("sentTime")
       );
+      // Fetch student details
+      if (currentStudentId) {
+        getDocs(
+          query(collection(db, "users"), where("id", "==", currentStudentId))
+        )
+          .then((snapshot) => {
+            if (!snapshot.empty) {
+              const studentData = snapshot.docs[0].data();
+              setChatPartner({
+                name: studentData.fullName,
+                id: currentStudentId,
+              });
+            }
+          })
+          .catch((error) =>
+            console.error("Error fetching student details:", error)
+          );
+      }
     } else {
       q = query(collection(db, "chats"), orderBy("sentTime"));
     }
@@ -272,21 +284,22 @@ const Page: React.FC = () => {
             } as ChatMessage)
         );
         setMessages(newMessages);
-
-        // Set the current student ID for the counsellor
-        if (context?.user?.role === "counsellor" && newMessages.length > 0) {
+        if (newMessages.length > 0) {
           const latestMessage = newMessages[newMessages.length - 1];
           setCurrentStudentId(latestMessage.userId);
         }
-        console.log("Current student ID:", currentStudentId);
       }
     );
 
     return () => unsubscribe();
-  }, [context?.user?.role, counsellorId, auth.currentUser?.uid]);
+  }, [
+    context?.user?.role,
+    counsellorId,
+    auth.currentUser?.uid,
+    currentStudentId,
+  ]);
 
-  // ... rest of the component code
-
+  // ... (handleStudentSendMessage and handleCounsellorSendMessage remain the same)
   const handleStudentSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
@@ -298,7 +311,6 @@ const Page: React.FC = () => {
       sender: "Student",
     };
 
-    // Optimistic update
     setMessages((prevMessages) => [...prevMessages, newMessage as ChatMessage]);
     setInputMessage("");
 
@@ -306,94 +318,63 @@ const Page: React.FC = () => {
       await addDoc(collection(db, "chats"), newMessage);
     } catch (error) {
       console.error("Error adding message: ", error);
-      // Revert the optimistic update if there's an error
       setMessages((prevMessages) =>
         prevMessages.filter((msg) => msg !== newMessage)
       );
     }
   };
 
-  // const handleCounsellorSendMessage = async () => {
-  //   if (inputMessage.trim() === "" || !currentStudentId) return;
-
-  //   const newMessage = {
-  //     userId: currentStudentId,
-  //     counsellorId: auth.currentUser?.uid,
-  //     message: inputMessage,
-  //     sentTime: new Date().toISOString(),
-  //     sender: "Counsellor",
-  //   };
-
-  //   // Optimistic update
-  //   setMessages((prevMessages) => [...prevMessages, newMessage as ChatMessage]);
-  //   setInputMessage("");
-
-  //   try {
-  //     await addDoc(collection(db, "chats"), newMessage);
-  //   } catch (error) {
-  //     console.error("Error adding message: ", error);
-  //     setMessages((prevMessages) =>
-  //       prevMessages.filter((msg) => msg !== newMessage)
-  //     );
-  //   }
-  // };
-
   const handleCounsellorSendMessage = async () => {
-    console.log("Attempting to send counsellor message");
-    console.log("Input message:", inputMessage);
-    console.log("Current student ID:", currentStudentId);
-    console.log("Counsellor ID:", auth.currentUser?.uid);
+    const trimmedInput = inputMessage.trim();
 
-    if (inputMessage.trim() === "" || !currentStudentId) {
-      console.log("Message not sent: Empty message or missing student ID");
+    if (trimmedInput === "" || !currentStudentId) {
       return;
     }
 
+    const counsellorId = auth.currentUser?.uid;
+    const currentUserId = currentStudentId;
+    const sentTime = new Date().toISOString();
+
     const newMessage = {
-      userId: currentStudentId,
-      counsellorId: auth.currentUser?.uid,
-      message: inputMessage,
-      sentTime: new Date().toISOString(),
+      userId: currentUserId,
+      counsellorId,
+      message: trimmedInput,
+      sentTime,
       sender: "Counsellor",
     };
 
-    console.log("New message object:", newMessage);
-
-    // Optimistic update
     setMessages((prevMessages) => [...prevMessages, newMessage as ChatMessage]);
     setInputMessage("");
 
     try {
-      const docRef = await addDoc(collection(db, "chats"), newMessage);
-      console.log("Message successfully added with ID:", docRef.id);
+      await addDoc(collection(db, "chats"), newMessage);
     } catch (error) {
-      console.error("Error adding message: ", error);
       setMessages((prevMessages) =>
-        prevMessages.filter((msg) => msg !== newMessage)
+        prevMessages.filter((message) => message !== newMessage)
       );
     }
   };
+
   return (
     <div style={{ position: "relative", height: "500px" }}>
       <div className="mb-16">
-        <DashboardHeader />
+        {context?.user?.role === "student" ? (
+          <DashboardHeader />
+        ) : context?.user?.role === "counsellor" ? (
+          <CDashboardHeader />
+        ) : (
+          ""
+        )}
       </div>
       <MainContainer>
         <Sidebar position="left">
           <Search placeholder="Search..." />
           <ConversationList>
-            <Conversation
-              info="Yes i can do it for you"
-              lastSenderName="Kai"
-              name="Kai"
-              unreadDot
-            >
-              <Avatar
-                name="Kai"
-                src="https://chatscope.io/storybook/react/assets/kai-5wHRJGb2.svg"
-                status="unavailable"
-              />
-            </Conversation>
+            {chatPartner && (
+              <Conversation name={chatPartner.name} info="Chat partner" active>
+                <Avatar name={chatPartner.name} status="available" />
+              </Conversation>
+            )}
           </ConversationList>
         </Sidebar>
         <ChatContainer>

@@ -44,7 +44,7 @@ const Page = () => {
       <div className="">
         <DashboardHeader />
 
-        <div className="w-full rounded-md mt-5 p-4 md:p-8 md:mt-10 md:h-[1100px]">
+        <div className="w-full rounded-md mt-5 p-4 md:p-8 md:mt-10 md:h-[800px]">
           <div className="flex flex-col md:flex-row text-sm h-full gap-4 p-4">
             {/* Grid one */}
             <div className="colOne w-1/3 rounded-md bg-white border-2 p-4 border-gray-200 shadow-sm m-3">

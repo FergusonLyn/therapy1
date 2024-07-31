@@ -289,11 +289,11 @@ const Page = () => {
                 <div className="bg-white p-10 shadow-lg rounded-md md:h-[270px] mt-4 grid grid-cols-2 gap-4">
                   <div className="h-auto w-auto flex rounded-md items-center justify-center">
                     <Image
-                      src="/Victoria.jpg"
-                      alt="counsellor's profile"
-                      className="w-full h-full object-cover rounded-md"
-                      width={240} // Set the desired width
-                      height={240} // Set the desired height
+                      src={counsellor.data.image}
+                      alt={counsellor.data.name}
+                      className="w-full h-full object-cover"
+                      width={150}
+                      height={150}
                     />
                   </div>
                   <div>

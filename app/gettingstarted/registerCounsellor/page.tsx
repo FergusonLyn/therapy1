@@ -290,18 +290,25 @@ const RegisterCounsellor = () => {
   };
 
   const signup = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("Starting signup...");
     event.preventDefault();
-    setLoading(true);
+
     try {
+      console.log("Creating user...");
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+      console.log(`User created: ${user.uid}`);
+
+      console.log("Uploading and getting download URL...");
       const downloadURL = image
         ? await uploadAndGetDownloadURL(user.uid, image)
         : null;
+      console.log(`Download URL: ${downloadURL}`);
 
+      console.log("Setting document...");
       await setDoc(doc(db, "users", user.uid), {
         counsellorNumber: counsellorId,
         name: fullName,
@@ -313,14 +320,46 @@ const RegisterCounsellor = () => {
       });
 
       resetFormFields();
+      console.log("Resetting form fields...");
       alert("Counsellor signed up successfully!");
+
+      console.log("Signup successful! Redirecting...");
       router.push("/gettingstarted/login");
     } catch (error) {
       console.error(error);
     }
-
-    setLoading(false);
   };
+
+  // const signup = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     const { user } = await createUserWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const downloadURL = image
+  //       ? await uploadAndGetDownloadURL(user.uid, image)
+  //       : null;
+
+  //     await setDoc(doc(db, "users", user.uid), {
+  //       counsellorNumber: counsellorId,
+  //       name: fullName,
+  //       role: "counsellor",
+  //       id: user.uid,
+  //       title,
+  //       image: downloadURL,
+  //       about,
+  //     });
+
+  //     resetFormFields();
+  //     alert("Counsellor signed up successfully!");
+  //     router.push("/gettingstarted/login");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const uploadAndGetDownloadURL = async (userId: string, image: File) => {
     const storageRef = ref(

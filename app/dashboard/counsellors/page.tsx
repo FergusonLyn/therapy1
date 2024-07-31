@@ -17,10 +17,10 @@ const Page = () => {
   const handleAppointmentClick = (counsellorId: string) => {
     router.push(`/dashboard/appointment?counsellorid=${counsellorId}`); // Navigate to the appointment page
   };
-  const handleChatClick = (counsellorId: string) => {
-    router.push(
-      `/dashboard/chats?counsellorid=${counsellorId}studentid=${auth.currentUser?.uid}`
-    ); // Navigate to the chat page
+  const navigateToChatPage = (counsellorId: string) => {
+    const currentUserId = auth.currentUser?.uid;
+    const url = `/dashboard/chats?counsellorid=${counsellorId}&studentid=${currentUserId}`;
+    router.push(url);
   };
 
   return (
@@ -66,7 +66,7 @@ const Page = () => {
                   <a href="tel:+233256778060">
                     <IoCall className="text-blue-500 w-5 h-5 cursor-pointer" />
                   </a>
-                  <button onClick={() => handleChatClick(counsellor.id)}>
+                  <button onClick={() => navigateToChatPage(counsellor.id)}>
                     <BsChatRightDotsFill className="text-blue-500 w-5 h-5 cursor-pointer" />
                   </button>
                 </div>

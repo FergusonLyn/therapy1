@@ -264,6 +264,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { setDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { Loader } from "../../components/Loader";
 
 const RegisterCounsellor = () => {
   const [fullName, setFullName] = useState("");
@@ -274,6 +275,7 @@ const RegisterCounsellor = () => {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [about, setAbout] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -289,7 +291,7 @@ const RegisterCounsellor = () => {
 
   const signup = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setLoading(true);
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -316,6 +318,8 @@ const RegisterCounsellor = () => {
     } catch (error) {
       console.error(error);
     }
+
+    setLoading(false);
   };
 
   const uploadAndGetDownloadURL = async (userId: string, image: File) => {
@@ -452,7 +456,7 @@ const RegisterCounsellor = () => {
               type="submit"
               className="bg-[#e2e2e2] w-64 py-3 rounded-[10px] mb-3 font-bold text-[13px]"
             >
-              Register
+              {loading ? <Loader /> : "Register"}
             </button>
           </div>
           <p className="text-center text-[13px]">

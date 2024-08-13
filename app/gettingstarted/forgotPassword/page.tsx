@@ -2,23 +2,35 @@
 import { useState, ChangeEvent } from "react";
 import Link from "next/link";
 import { auth } from "../../firebase";
-import { sendPasswordResetEmail } from 'firebase/auth';
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const Password = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const resetPassword = (e: React.FormEvent<HTMLFormElement>) => {
+  // const resetPassword = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   sendPasswordResetEmail(auth, email)
+  //     .then(() => {
+  //       setMessage("Password reset email sent! Please check your inbox.");
+  //       alert("email sent successfullys");
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //       setMessage("");
+  //     });
+  // };
+  const resetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendPasswordResetEmail(auth, email)
-    .then(() => {
-      setMessage('Password reset email sent! Please check your inbox.');
-      
-    })
-    .catch((err) => {
-     alert(err)
-      setMessage('');
-    });
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage(
+        "Password reset email sent! Please check your inbox or spam folder."
+      );
+    } catch (err) {
+      console.error("Password reset error:", err);
+      setMessage(err instanceof Error ? err.message : "An error occurred");
+    }
   };
 
   return (

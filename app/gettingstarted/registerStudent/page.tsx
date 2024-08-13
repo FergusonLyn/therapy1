@@ -5,8 +5,9 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc} from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { Loader } from "@/app/components/Loader";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -14,10 +15,9 @@ const RegisterStudent = () => {
   const [studentId, setStudentId] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
-  
-  const router = useRouter()
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -26,26 +26,32 @@ const RegisterStudent = () => {
   const signup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
+    setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((studentSignup) => {
         const user = studentSignup.user;
         console.log(user);
-        return setDoc(doc(db, "users",user.uid), {
+        return setDoc(doc(db, "users", user.uid), {
           studentNumber: studentId,
           name: fullName,
-          role:"student",
-          id:user.uid,
+          role: "student",
+          id: user.uid,
         });
       })
       .then(() => {
+        setTimeout(() => {
+          setLoading(false);
+          alert("User signed up successfully!");
+        }, 3000);
         console.log("Document written!");
-        alert("User signed up successfully!");
-        router.push("/gettingstarted/login")
+        router.push("/gettingstarted/login");
       })
       .catch((error) => {
         console.error(error);
-        alert(error.message);
+        setTimeout(() => {
+          setLoading(false);
+          alert(error.message);
+        }, 3000);
       });
   };
 
@@ -123,7 +129,13 @@ const RegisterStudent = () => {
             type="submit"
             className="bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-3 font-bold text-[13px]"
           >
-            Register{" "}
+            {loading ? (
+              <div className="flex justify-center items-center">
+                <Loader />
+              </div>
+            ) : (
+              "Register"
+            )}
           </button>
           <p className="text-center text-[13px]">
             Already have an account?{" "}

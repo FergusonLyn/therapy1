@@ -30,22 +30,17 @@
   @apply flex justify-center items-center;
 }
 
-.div-input {
+/* .div-input {
   @apply flex justify-between items-center gap-6;
-}
+} */
 
 /* Input styles */
 .input {
   @apply w-full px-4 py-3 mb-8 border-2 border-gray-300 rounded-lg mt-1;
   background-color: transparent; /* Tailwind doesn't have `background-color: none` directly */
 }
-.counsellor-input {
-  @apply px-4 py-3 mb-8 border-2 border-gray-300 rounded-lg mt-1;
-  background-color: transparent;
-}
 
-.input:focus,
-.counsellor-input {
+.input:focus {
   @apply outline-none;
 }
 
@@ -72,13 +67,13 @@ body {
 }
 
 .spinner {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: conic-gradient(#0000 10%, #474bff);
+  background: conic-gradient(#0000 8%, #474bff);
   -webkit-mask: radial-gradient(
     farthest-side,
-    #0000 calc(100% - 3.8px),
+    #0000 calc(100% - 3.4px),
     #000 0
   );
   animation: spinner-zp9dbg 1s infinite linear;

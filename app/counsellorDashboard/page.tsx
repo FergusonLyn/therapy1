@@ -16,6 +16,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { db, auth } from "../firebase";
+import { Loader } from "../components/Loader";
 
 const page = () => {
   const context = useContext(userAuthContext);
@@ -28,6 +29,7 @@ const page = () => {
       help: string;
     }[]
   );
+  const [loading, setLoading] = useState(true);
 
   if (!context) {
     throw new Error(
@@ -48,6 +50,11 @@ const page = () => {
     ];
     return colors[Math.floor(Math.random() * colors.length)];
   };
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     const fetchAppointmentInfo = async () => {
@@ -105,6 +112,13 @@ const page = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div>
       <CDashboardHeader />
@@ -196,13 +210,13 @@ const page = () => {
                 className={`absolute w-28 h-28 ${getRandomColor()} rounded-full flex items-center justify-center`}
                 style={{ top: "1%", left: "5%" }}
               >
-                <span className="text-white text-lg">Type 1</span>
+                <span className="text-white text-lg">Anxiety</span>
               </div>
               <div
                 className={`absolute w-24 h-24 ${getRandomColor()} rounded-full flex items-center justify-center`}
                 style={{ top: "5%", right: "10%" }}
               >
-                <span className="text-white text-lg">Type 2</span>
+                <span className="text-white text-lg">Depression</span>
               </div>
               <div
                 className={`absolute w-20 h-20 ${getRandomColor()} rounded-full flex items-center justify-center`}
@@ -212,7 +226,7 @@ const page = () => {
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <span className="text-white text-lg">Type 3</span>
+                <span className="text-white text-lg">Suicide</span>
               </div>
             </div>
           </div>

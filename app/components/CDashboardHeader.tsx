@@ -119,10 +119,10 @@ const CDashboardHeader = () => {
               <Link href="./">Dashboard</Link>
             </li>
             <li className="py-2 md:py-0">
-              <Link href="">Appointments</Link>
+              <Link href="/counsellorDashboard/myAppointments">Appointments</Link>
             </li>
             <li className="py-2 md:py-0">
-              <Link href="/dashboard/chats">Chats</Link>
+              <Link href="/counsellorDashboard/chats">Chats</Link>
             </li>
           </ul>
           <div className="flex items-center space-x-4">

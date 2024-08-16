@@ -164,9 +164,11 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Your Patients Today</h1>
-            <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
-              See All
-            </span>
+            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#appointments">
+              <span className=" hover:text-blue-700">
+                See All
+              </span>
+            </Link>
           </div>
           <hr />
 
@@ -240,9 +242,12 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 ">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Session Requests</h1>
-            <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
-              See All
-            </span>
+            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#sessions">
+              <span className=" hover:text-blue-700">
+                See All
+              </span>
+            </Link>
+            
           </div>
           <hr />
           {appointmentInfo.slice(0, 2).map((appointment) => (

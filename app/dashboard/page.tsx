@@ -95,7 +95,7 @@ const Page = () => {
               <h3 className="text-black text-lg flex justify-between items-center mb-4 font-bold">
                 Your Counselors
               </h3>
-              {counsellors.map((counsellor) => (
+              {counsellors.slice(0, 2).map((counsellor) => (
                 <div className="bg-white p-10 shadow-lg rounded-md md:h-[270px] mt-4 grid grid-cols-2 gap-4">
                   <div className="h-auto w-auto flex rounded-md items-center justify-center">
                     <Image
@@ -111,7 +111,7 @@ const Page = () => {
                       {counsellor.data.name}
                     </h1>
                     <p className="font-normal text-xs">
-                      {counsellor.data.about}
+                      {counsellor.data.about.length > 120 ? `${counsellor.data.about.substring(0, 120)}...` : counsellor.data.about}
                     </p>
                   </div>
                 </div>
@@ -135,7 +135,7 @@ const Page = () => {
                 <hr />
 
                 {appointmentInfo.map((appointment: any) => (
-                  <div key={appointment.id} className="flex flex-col gap-2 p-2">
+                  <div key={appointment.id} className="flex flex-col gap-2 p-2 my-2">
                     <div className="flex flex-row justify-between">
                       <h2>
                         You have an appointment with{" "}
@@ -144,13 +144,14 @@ const Page = () => {
                       <p>Date: {appointment.date}</p>
                       <p>Time: {appointment.time}</p>
                     </div>
+                    <hr />
                   </div>
                 ))}
               </div>
 
               <div className="rounded-md bg-white border-2 p-4 border-gray-200 shadow-sm m-3">
-                <div className="flex justify-center items-center">
-                  <div className="quote">
+                <div className="flex justify-center items-center h-full">
+                  <div className="quote text-center">
                     <h1 className="font-semibold text-xl">
                       "{getQuote.text}"<br />
                       <span className="text-lg text-center">

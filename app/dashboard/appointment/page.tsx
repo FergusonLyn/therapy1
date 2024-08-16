@@ -74,7 +74,7 @@ const AppointmentPage: React.FC = () => {
         message: "",
       });
       alert("Appointment scheduled successfully!");
-      router.push("/counsellors");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error scheduling appointment:", error);
       alert("Failed to schedule appointment. Please try again.");

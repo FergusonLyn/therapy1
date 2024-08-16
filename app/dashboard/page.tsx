@@ -153,7 +153,7 @@ const Page = () => {
                 <div className="flex justify-center items-center h-full">
                   <div className="quote text-center">
                     <h1 className="font-semibold text-xl">
-                      "{getQuote.text}"<br />
+                    &quot;{getQuote.text}&quot;<br />
                       <span className="text-lg text-center">
                         Author: {getQuote.author}
                       </span>

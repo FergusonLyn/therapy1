@@ -257,13 +257,13 @@ const page = () => {
               </div>
               <div className="flex items-center flex-grow justify-center">
                 <div className="flex items-center border-2 border-gray-600 px-2 rounded-full">
-                  <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                     <Image
                       src="/profile.jpg"
                       alt="profile picture"
-                      className="w-full h-full object-cover rounded-md"
-                      width={40} // Set the desired width
-                      height={40} // Set the desired height
+                      className="w-full h-full object-cover rounded-full"
+                      width={40}
+                      height={40}
                     />
                   </div>
                   <p className="text-lg font-semibold ">{appointment.name}</p>

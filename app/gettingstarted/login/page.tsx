@@ -4,11 +4,7 @@ import React, { useState, useEffect } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  getAuth,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { Loader } from "@/app/components/Loader";
@@ -20,7 +16,6 @@ interface User {
 }
 
 const Login: React.FC = () => {
-  const [clicked, setClicked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -29,10 +24,9 @@ const Login: React.FC = () => {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      const userId = user.uid; // Get the current user's ID
-      fetchUserRole(userId); // Call the function with the user ID
+      const userId = user.uid;
+      fetchUserRole(userId);
     } else {
-      // Handle the case where no user is logged in
       console.log("No user currently logged in!");
     }
   });
@@ -53,10 +47,7 @@ const Login: React.FC = () => {
         console.error("Error fetching user document:", error);
       });
   };
-  const handleClick = () => {
-    setClicked(true);
-    setTimeout(() => setClicked(false), 300);
-  };
+
   const router = useRouter();
 
   const togglePasswordVisibility = () => {
@@ -65,6 +56,7 @@ const Login: React.FC = () => {
 
   const signIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((signInUser) => {
         const user = signInUser.user;
@@ -77,12 +69,16 @@ const Login: React.FC = () => {
           console.log("no role setted");
         }
         console.log(`User is a ${role}`);
-        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);
         alert(error.message);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       });
   };
 
@@ -134,7 +130,13 @@ const Login: React.FC = () => {
             type="submit"
             className={`bg-[#e2e2e2] w-full py-3 rounded-[10px] mb-3 font-bold text-[13px] `}
           >
-            {loading ? <Loader /> : "Sign In"}
+            {loading ? (
+              <div className=" flex justify-center items-center">
+                <Loader />
+              </div>
+            ) : (
+              "Sign In"
+            )}
           </button>
           <Link
             href="./forgotPassword"

@@ -1,13 +1,13 @@
 "use client";
+import { Loader } from "@/app/components/Loader";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
-import { Loader } from "@/app/components/Loader";
 
 const RegisterStudent = () => {
   const [fullName, setFullName] = useState("");
@@ -30,7 +30,6 @@ const RegisterStudent = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((studentSignup) => {
         const user = studentSignup.user;
-        console.log(user);
         return setDoc(doc(db, "users", user.uid), {
           studentNumber: studentId,
           name: fullName,
@@ -43,7 +42,6 @@ const RegisterStudent = () => {
           setLoading(false);
           alert("User signed up successfully!");
         }, 3000);
-        console.log("Document written!");
         router.push("/gettingstarted/login");
       })
       .catch((error) => {

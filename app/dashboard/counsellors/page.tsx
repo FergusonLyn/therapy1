@@ -1,26 +1,70 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
-import { BsChatRightDotsFill } from "react-icons/bs";
-import { RiContactsBook3Fill } from "react-icons/ri";
-import { IoCall } from "react-icons/io5";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import DashboardHeader from "@/app/components/DashboardHeader";
 import { CounsellorContext } from "@/app/contexts/counsellorContext";
-import { auth } from "../../firebase";
+import { ChatConversation } from "@/app/models/chat";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { BsChatRightDotsFill } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
+import { IoCall } from "react-icons/io5";
+import { RiContactsBook3Fill } from "react-icons/ri";
+import { ulid } from "ulid";
+import { auth, db } from "../../firebase";
 
 const Page = () => {
   const { counsellors } = useContext(CounsellorContext);
+
+  // create conversation between counsellor and student
+
+  const createConversation = async (counsellorId: string) => {
+    const conversationId = ulid();
+    const conversationsCollection = collection(db, "conversations");
+    const conversation: ChatConversation = {
+      id: conversationId,
+      studentId: auth.currentUser?.uid as string,
+      counsellorId,
+    };
+    try {
+      await setDoc(doc(conversationsCollection, conversationId), conversation);
+    } catch (e) {
+      console.error("Error starting conversation", e);
+    }
+  };
+
+  const checkConversationExists = async (counsellorId: string) => {
+    const conversationsCollection = collection(db, "conversations");
+    const q = query(
+      conversationsCollection,
+      where("studentId", "==", auth.currentUser?.uid),
+      where("counsellorId", "==", counsellorId)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size > 0;
+  };
 
   const router = useRouter();
   const handleAppointmentClick = (counsellorId: string) => {
     router.push(`/dashboard/appointment?counsellorid=${counsellorId}`); // Navigate to the appointment page
   };
-  const navigateToChatPage = (counsellorId: string) => {
+  const navigateToChatPage = async (counsellorId: string) => {
     const currentUserId = auth.currentUser?.uid;
-    const url = `/dashboard/chats?counsellorid=${counsellorId}&studentid=${currentUserId}`;
-    router.push(url);
+    const conversationExists = await checkConversationExists(counsellorId);
+    const url = `/dashboard/chats`;
+    if (conversationExists) {
+      router.push(url);
+    } else {
+      await createConversation(counsellorId);
+      router.push(url);
+    }
   };
 
   return (

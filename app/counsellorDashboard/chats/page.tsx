@@ -1,178 +1,151 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import { useSearchParams } from "next/navigation";
 import DashboardHeader from "@/app/components/DashboardHeader";
-import CDashboardHeader from "@/app/components/CDashboardHeader";
 import { userAuthContext } from "@/app/contexts/userContext";
+import { Chat, ChatConversation } from "@/app/models/chat";
 import {
-  MainContainer,
-  ChatContainer,
-  Sidebar,
-  Search,
-  ConversationList,
-  Conversation,
   Avatar,
-  MessageList,
+  ChatContainer,
+  Conversation,
+  ConversationList,
+  MainContainer,
   Message,
   MessageInput,
+  MessageList,
+  Search,
+  Sidebar,
 } from "@chatscope/chat-ui-kit-react";
-import { db, auth } from "../../firebase";
 import {
-  getDocs,
-  collection,
   addDoc,
+  collection,
+  getDocs,
+  limit,
   onSnapshot,
-  query,
   orderBy,
+  query,
   where,
 } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { ulid } from "ulid";
+import { auth, db } from "../../firebase";
 
-interface ChatMessage {
-  id: string;
-  message: string;
-  sentTime: string;
-  sender: string;
-  userId: string;
-  counsellorId: string;
-}
-
-interface ChatPartner {
-  id: string;
-  name: string;
-}
+type ChatConversationWithStudent = ChatConversation & {
+  studentName: string;
+};
 
 const Page: React.FC = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<Chat[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [chatPartners, setChatPartners] = useState<ChatPartner[]>([]);
-  const [selectedPartner, setSelectedPartner] = useState<ChatPartner | null>(
-    null
-  );
-
-  const searchParams = useSearchParams();
-  const initialCounsellorId = searchParams.get("counsellorid");
-
+  const [conversations, setConversations] = useState<
+    ChatConversationWithStudent[]
+  >([]);
+  const [selectedConversation, setSelectedConversation] =
+    useState<ChatConversationWithStudent | null>(null);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const context = useContext(userAuthContext);
   const currentUserId = auth.currentUser?.uid;
   const userRole = context?.user?.role;
 
-  useEffect(() => {
-    if (!currentUserId || !userRole) return;
+  // fetch all converstations for the current user
 
-    const fetchChatPartners = async () => {
-      const chatsRef = collection(db, "chats");
-      const partnerField = userRole === "student" ? "counsellorId" : "userId";
-      const q = query(
-        chatsRef,
-        where(
-          userRole === "student" ? "userId" : "counsellorId",
-          "==",
-          currentUserId
-        )
-      );
+  const retrieveConversations = async () => {
+    const q = query(
+      collection(db, "conversations"),
+      where("stuentId", "==", currentUserId)
+    );
 
-      const querySnapshot = await getDocs(q);
-      const uniquePartnerIds = new Set<string>();
-      querySnapshot.forEach((doc) => {
-        uniquePartnerIds.add(doc.data()[partnerField]);
-      });
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map(
+      (doc) => doc.data() as ChatConversation
+    );
 
-      const partners = await Promise.all(
-        Array.from(uniquePartnerIds).map(async (partnerId) => {
-          const userDoc = await getDocs(
-            query(collection(db, "users"), where("id", "==", partnerId))
-          );
-          const userData = userDoc.docs[0]?.data();
-          return { id: partnerId, name: userData?.name || "Unknown" };
-        })
-      );
+    console.log({ data });
 
-      setChatPartners(partners);
-      if (initialCounsellorId && userRole === "student") {
-        const initialPartner = partners.find(
-          (p) => p.id === initialCounsellorId
-        );
-        setSelectedPartner(initialPartner || partners[0]);
-      } else {
-        setSelectedPartner(partners[0]);
-      }
-    };
+    const newConversations = data.map(async (conversation) => {
+      const studentId = conversation.studentId;
+      const student = await retrieveStudentDetails(studentId);
+      return {
+        ...conversation,
+        studentName: student.name as string,
+      } as ChatConversationWithStudent;
+    });
 
-    fetchChatPartners();
-  }, [currentUserId, userRole, initialCounsellorId]);
+    const results = await Promise.all(newConversations);
+    setConversations(results);
+    if (!results[0]) return;
+    setSelectedConversation(results[0]);
+  };
+
+  // retrieve counsellor details
+
+  const retrieveStudentDetails = async (studentId: string) => {
+    const q = query(
+      collection(db, "users"),
+      where("id", "==", studentId),
+      where("role", "==", "student"),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs[0].data();
+  };
 
   useEffect(() => {
-    if (!selectedPartner || !currentUserId) return;
+    retrieveConversations().catch((error) =>
+      toast.error("You know what happened? Something terrible did happen! 😢")
+    );
+  }, []);
 
+  useEffect(() => {
+    if (!selectedConversation || !currentUserId) return;
     const q = query(
       collection(db, "chats"),
-      where(
-        userRole === "student" ? "userId" : "counsellorId",
-        "==",
-        currentUserId
-      ),
-      where(
-        userRole === "student" ? "counsellorId" : "userId",
-        "==",
-        selectedPartner.id
-      ),
+      where("conversationId", "==", selectedConversation.id),
       orderBy("sentTime")
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newMessages = snapshot.docs.map(
-        (doc) =>
-          ({
-            id: doc.id,
-            ...doc.data(),
-          } as ChatMessage)
-      );
+      const newMessages = snapshot.docs.map((doc) => doc.data() as Chat);
       setMessages(newMessages);
     });
 
     return () => unsubscribe();
-  }, [selectedPartner, currentUserId, userRole]);
+  }, [selectedConversation]);
 
   const handleSendMessage = async () => {
-    if (inputMessage.trim() === "" || !selectedPartner) return;
+    if (!inputMessage.trim() || !selectedConversation) return;
 
-    const newMessage = {
-      userId: userRole === "student" ? currentUserId : selectedPartner.id,
-      counsellorId: userRole === "student" ? selectedPartner.id : currentUserId,
+    const newMessage: Chat = {
+      conversationId: selectedConversation.id,
+      id: ulid(),
+      senderId: currentUserId!,
       message: inputMessage,
       sentTime: new Date().toISOString(),
-      sender: userRole === "student" ? "Student" : "Counsellor",
     };
-
-    setMessages((prevMessages) => [...prevMessages, newMessage as ChatMessage]);
     setInputMessage("");
 
     try {
       await addDoc(collection(db, "chats"), newMessage);
     } catch (error) {
       console.error("Error adding message: ", error);
-      setMessages((prevMessages) =>
-        prevMessages.filter((msg) => msg !== newMessage)
-      );
     }
   };
 
   return (
     <div style={{ position: "relative", height: "500px" }}>
       <div className="mb-16">
-        {userRole === "student" ? <DashboardHeader /> : <CDashboardHeader />}
+        <DashboardHeader />
       </div>
       <MainContainer>
         <Sidebar position="left">
           <Search placeholder="Search..." />
           <ConversationList>
-            {chatPartners.map((partner) => (
+            {conversations.map((convo) => (
               <Conversation
-                key={partner.id}
-                name={partner.name}
-                info={userRole === "student" ? "Counsellor" : "Student"}
-                active={selectedPartner?.id === partner.id}
-                onClick={() => setSelectedPartner(partner)}
+                key={convo.id}
+                name={convo.studentName}
+                info={"student"}
+                active={selectedConversation?.id === convo.id}
+                onClick={() => setSelectedConversation(convo)}
               >
                 <Avatar src="/profile.jpg" status="available" />
               </Conversation>
@@ -187,12 +160,12 @@ const Page: React.FC = () => {
                 model={{
                   message: msg.message,
                   sentTime: msg.sentTime,
-                  sender: msg.sender,
+                  sender:
+                    msg.senderId === currentUserId
+                      ? "counsellor"
+                      : selectedConversation?.studentName,
                   direction:
-                    msg.sender ===
-                    (userRole === "student" ? "Student" : "Counsellor")
-                      ? "outgoing"
-                      : "incoming",
+                    msg.senderId === currentUserId ? "outgoing" : "incoming",
                   position: "single",
                 }}
               />

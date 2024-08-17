@@ -62,14 +62,14 @@
 //   );
 // };
 "use client";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import {
   createContext,
-  useState,
   ReactNode,
-  useEffect,
   useCallback,
+  useEffect,
+  useState,
 } from "react";
-import { collection, where, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase";
 
 interface Counsellor {
@@ -105,7 +105,6 @@ export const CounsellorProvider = ({ children }: { children: ReactNode }) => {
           where("role", "==", "counsellor")
         );
         const counsellorDoc = await getDocs(counsellorDocRef);
-        console.log("Counsellors fetched:", counsellorDoc.docs.length);
         if (counsellorDoc) {
           const counsellorArray = counsellorDoc.docs.map((doc) => ({
             id: doc.id,
@@ -114,8 +113,6 @@ export const CounsellorProvider = ({ children }: { children: ReactNode }) => {
             } as Counsellor["data"],
           }));
           setCounsellors(counsellorArray);
-          console.log("It worked");
-          console.log(counsellorArray);
         }
       } catch (error) {
         console.log(error);

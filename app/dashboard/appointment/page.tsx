@@ -1,18 +1,9 @@
 "use client";
-import React, {
-  useState,
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useContext,
-} from "react";
-import { useSearchParams } from "next/navigation";
-import { getAuth } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
-import { db, auth } from "../../firebase"; // Adjust the path to your firebase config file
-import { CounsellorContext } from "@/app/contexts/counsellorContext";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { auth, db } from "../../firebase"; // Adjust the path to your firebase config file
 
 // Define the type for form data
 interface FormData {
@@ -47,7 +38,6 @@ const AppointmentPage: React.FC = () => {
 
     try {
       const user = auth.currentUser;
-      console.log(counsellorId);
       if (!user) {
         throw new Error("User not authenticated ");
       }

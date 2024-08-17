@@ -5,6 +5,7 @@ import "./globals.css";
 import { DiaryContextProvider } from "./contexts/diaryContext";
 import { CounsellorProvider } from "./contexts/counsellorContext";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({ weight: "300", subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Toaster />
       <UserContextProvider>
         <DiaryContextProvider>
           <CounsellorProvider>

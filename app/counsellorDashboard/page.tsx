@@ -1,22 +1,21 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { IoIosSend } from "react-icons/io";
-import CDashboardHeader from "../components/CDashboardHeader";
-import Image from "next/image";
-import Link from "next/link";
-import TodayDate from "../components/TodayDate";
-import PatientsRatingHistogram from "../components/PatientsRatingHistogram";
-import { userAuthContext } from "../contexts/userContext";
 import {
   collection,
+  doc,
   getDocs,
   query,
-  where,
   updateDoc,
-  doc,
+  where,
 } from "firebase/firestore";
-import { db, auth } from "../firebase";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import { IoIosSend } from "react-icons/io";
+import CDashboardHeader from "../components/CDashboardHeader";
 import { Loader } from "../components/Loader";
+import PatientsRatingHistogram from "../components/PatientsRatingHistogram";
+import TodayDate from "../components/TodayDate";
+import { userAuthContext } from "../contexts/userContext";
+import { auth, db } from "../firebase";
 
 const page = () => {
   const context = useContext(userAuthContext);
@@ -60,7 +59,6 @@ const page = () => {
     const fetchAppointmentInfo = async () => {
       const userId = auth.currentUser?.uid;
       if (!userId) {
-        console.log("User ID not found. Exiting.");
         return;
       }
 

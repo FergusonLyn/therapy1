@@ -1,5 +1,5 @@
 "use client";
-import DashboardHeader from "@/app/components/DashboardHeader";
+import CDashboardHeader from "@/app/components/CDashboardHeader";
 import { userAuthContext } from "@/app/contexts/userContext";
 import { Chat, ChatConversation } from "@/app/models/chat";
 import {
@@ -44,22 +44,20 @@ const Page: React.FC = () => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const context = useContext(userAuthContext);
   const currentUserId = auth.currentUser?.uid;
-  const userRole = context?.user?.role;
 
   // fetch all converstations for the current user
 
-  const retrieveConversations = async () => {
+  const retrieveConversations = async (userId: string) => {
+    console.log("retrieving conversations for user", userId);
     const q = query(
       collection(db, "conversations"),
-      where("stuentId", "==", currentUserId)
+      where("counsellorId", "==", userId)
     );
 
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs.map(
       (doc) => doc.data() as ChatConversation
     );
-
-    console.log({ data });
 
     const newConversations = data.map(async (conversation) => {
       const studentId = conversation.studentId;
@@ -70,13 +68,17 @@ const Page: React.FC = () => {
       } as ChatConversationWithStudent;
     });
 
+    console.log({
+      newConversations,
+    });
+
     const results = await Promise.all(newConversations);
-    setConversations(results);
     if (!results[0]) return;
+    setConversations(results);
     setSelectedConversation(results[0]);
   };
 
-  // retrieve counsellor details
+  // retrieve student details
 
   const retrieveStudentDetails = async (studentId: string) => {
     const q = query(
@@ -90,10 +92,12 @@ const Page: React.FC = () => {
   };
 
   useEffect(() => {
-    retrieveConversations().catch((error) =>
-      toast.error("You know what happened? Something terrible did happen! 😢")
-    );
-  }, []);
+    if (!auth.currentUser?.uid) return;
+    retrieveConversations(auth.currentUser?.uid).catch((error) => {
+      console.log(error);
+      toast.error("You know what happened? Something terrible did happen! 😢");
+    });
+  }, [auth.currentUser?.uid]);
 
   useEffect(() => {
     if (!selectedConversation || !currentUserId) return;
@@ -129,11 +133,26 @@ const Page: React.FC = () => {
       console.error("Error adding message: ", error);
     }
   };
+  useEffect(() => {
+    let unsubscribe: (() => void) | null = null;
+    if (!selectedConversation) return;
+    const q = query(
+      collection(db, "chats"),
+      where("conversationId", "==", selectedConversation.id),
+      orderBy("sentTime")
+    );
 
+    unsubscribe = onSnapshot(q, (snapshot) => {
+      const newMessages = snapshot.docs.map((doc) => doc.data() as Chat);
+      setMessages(newMessages);
+    });
+
+    return () => unsubscribe && unsubscribe();
+  }, [selectedConversation]);
   return (
     <div style={{ position: "relative", height: "500px" }}>
       <div className="mb-16">
-        <DashboardHeader />
+        <CDashboardHeader />
       </div>
       <MainContainer>
         <Sidebar position="left">

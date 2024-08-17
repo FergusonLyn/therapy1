@@ -1,5 +1,4 @@
 "use client";
-import CDashboardHeader from "@/app/components/CDashboardHeader";
 import DashboardHeader from "@/app/components/DashboardHeader";
 import { userAuthContext } from "@/app/contexts/userContext";
 import { Chat, ChatConversation } from "@/app/models/chat";
@@ -45,7 +44,6 @@ const Page: React.FC = () => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const context = useContext(userAuthContext);
   const currentUserId = auth.currentUser?.uid;
-  const userRole = context?.user?.role;
 
   // fetch all converstations for the current user
 
@@ -53,8 +51,8 @@ const Page: React.FC = () => {
     console.log("retrieving conversations for user", userId);
 
     const q = query(
-      collection(db, "conversations")
-      // where("stuentId", "==", userId)
+      collection(db, "conversations"),
+      where("studentId", "==", "9jKB4delRkS3QP2IjavgtV8h7d12")
     );
 
     const querySnapshot = await getDocs(q);
@@ -63,10 +61,6 @@ const Page: React.FC = () => {
     const data = querySnapshot.docs.map(
       (doc) => doc.data() as ChatConversation
     );
-
-    console.log({
-      data,
-    });
     const newConversations = data.map(async (conversation) => {
       const counsellorId = conversation.counsellorId;
       const counsellor = await retrieveCounsellorDetails(counsellorId);
@@ -129,6 +123,7 @@ const Page: React.FC = () => {
       message: inputMessage,
       sentTime: new Date().toISOString(),
     };
+
     setInputMessage("");
 
     try {
@@ -138,10 +133,27 @@ const Page: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    let unsubscribe: (() => void) | null = null;
+    if (!selectedConversation) return;
+    const q = query(
+      collection(db, "chats"),
+      where("conversationId", "==", selectedConversation.id),
+      orderBy("sentTime")
+    );
+
+    unsubscribe = onSnapshot(q, (snapshot) => {
+      const newMessages = snapshot.docs.map((doc) => doc.data() as Chat);
+      setMessages(newMessages);
+    });
+
+    return () => unsubscribe && unsubscribe();
+  }, [selectedConversation]);
+
   return (
     <div style={{ position: "relative", height: "500px" }}>
       <div className="mb-16">
-        {userRole === "student" ? <DashboardHeader /> : <CDashboardHeader />}
+        <DashboardHeader />
       </div>
       <MainContainer>
         <Sidebar position="left">

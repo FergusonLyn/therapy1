@@ -8,6 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import CDashboardHeader from "../components/CDashboardHeader";

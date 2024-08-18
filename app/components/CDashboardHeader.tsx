@@ -3,6 +3,7 @@ import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FiLogOut } from "react-icons/fi";
 import { userAuthContext } from "../contexts/userContext";
 import { auth } from "../firebase";
@@ -44,13 +45,12 @@ const CDashboardHeader = () => {
 
   const logOut = () => {
     signOut(auth)
-      .then(() => {
-        alert("User signed out successfully!");
+    .then(() => {
+        toast.success("user Logged out successfully")
         router.push("/");
       })
       .catch((error) => {
-        console.error("Sign out error:", error);
-        alert("An error occurred while signing out. Please try again later.");
+    toast.error("user couldnt log out check your internet connection")
       });
   };
 

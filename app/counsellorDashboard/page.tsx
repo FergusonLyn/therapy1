@@ -1,4 +1,5 @@
 "use client";
+import { onAuthStateChanged } from "firebase/auth";
 import {
   collection,
   doc,
@@ -15,11 +16,14 @@ import CDashboardHeader from "../components/CDashboardHeader";
 import { Loader } from "../components/Loader";
 import PatientsRatingHistogram from "../components/PatientsRatingHistogram";
 import TodayDate from "../components/TodayDate";
+import { CounsellorContext } from "../contexts/counsellorContext";
 import { userAuthContext } from "../contexts/userContext";
 import { auth, db } from "../firebase";
 
 const page = () => {
   const context = useContext(userAuthContext);
+  const { getCounsellorImage } = useContext(CounsellorContext);
+  const [counsellorImage, setCounsellorImage] = useState<string | null>(null);
   const [appointmentInfo, setAppointmentInfo] = useState(
     [] as {
       name: string;
@@ -111,6 +115,21 @@ const page = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const image = getCounsellorImage(user.uid);
+        console.log(image);
+        setCounsellorImage(image || null);
+      } else {
+        setCounsellorImage(null);
+      }
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
+  }, [getCounsellorImage]);
+
   if (loading) {
     return (
       <div className="h-screen flex justify-center items-center">
@@ -124,8 +143,14 @@ const page = () => {
 
       <div className="first grid grid-cols-1 md:grid-cols-2 mt-6">
         <div className="flex rounded-md bg-white border-2 border-gray-200 shadow-sm h-auto m-3 p-5">
-          <div className="bg-blue-500 rounded-full w-36 h-36 mb-6 flex items-center justify-center text-white">
-            {/* for counsellor's image */}
+          <div className=" bg-blue-600 rounded-full w-36 h-36 mb-6 flex items-center justify-center ">
+            <Image
+              src={counsellorImage || ""}
+              alt="Technical Support"
+              width={105}
+              height={105}
+              className="object-cover "
+            />
           </div>
           <div className="flex flex-col p-2">
             <h1 className="font-medium text-lg m-2">
@@ -163,10 +188,11 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Your Patients Today</h1>
-            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#appointments">
-              <span className=" hover:text-blue-700">
-                See All
-              </span>
+            <Link
+              className="ml-auto m-2 text-gray-500 cursor-pointer"
+              href="/counsellorDashboard/myAppointments#appointments"
+            >
+              <span className=" hover:text-blue-700">See All</span>
             </Link>
           </div>
           <hr />
@@ -241,12 +267,12 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 ">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Session Requests</h1>
-            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#sessions">
-              <span className=" hover:text-blue-700">
-                See All
-              </span>
+            <Link
+              className="ml-auto m-2 text-gray-500 cursor-pointer"
+              href="/counsellorDashboard/myAppointments#sessions"
+            >
+              <span className=" hover:text-blue-700">See All</span>
             </Link>
-            
           </div>
           <hr />
           {appointmentInfo.slice(0, 2).map((appointment) => (
@@ -256,7 +282,7 @@ const page = () => {
               </div>
               <div className="flex items-center flex-grow justify-center">
                 <div className="flex items-center border-2 border-gray-600 px-2 rounded-full">
-                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                  <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                     <Image
                       src="/profile.jpg"
                       alt="profile picture"

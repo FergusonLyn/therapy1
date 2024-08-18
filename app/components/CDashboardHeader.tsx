@@ -1,13 +1,11 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { FiLogOut } from "react-icons/fi";
-import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Loader } from "./Loader";
+import { useContext, useEffect, useState } from "react";
+import { FiLogOut } from "react-icons/fi";
 import { userAuthContext } from "../contexts/userContext";
+import { auth } from "../firebase";
 import { extractInitials } from "../utils/string";
 
 const CDashboardHeader = () => {

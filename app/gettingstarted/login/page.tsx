@@ -8,6 +8,7 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { Loader } from "@/app/components/Loader";
+import toast from "react-hot-toast";
 
 interface User {
   studentNumber: number;
@@ -20,32 +21,16 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState<"student" | "counsellor" | null>(null);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const userId = user.uid;
-      fetchUserRole(userId);
-    } else {
-      console.log("No user currently logged in!");
-    }
-  });
-
-  const fetchUserRole = (userId: string) => {
+  const fetchUserRole = async (userId: string) => {
     const userDocRef = doc(db, "users", userId);
 
-    getDoc(userDocRef)
-      .then((userDocSnap) => {
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data() as User;
-          setRole(userData.role); // Assuming userData.role is always a string
-        } else {
-          console.log("User document not found!");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user document:", error);
-      });
+    const snapshot = await getDoc(userDocRef);
+    if (!snapshot.exists) {
+      throw new Error("User document not found!");
+    }
+    const data = snapshot.data() as User;
+    return data.role;
   };
 
   const router = useRouter();
@@ -54,32 +39,25 @@ const Login: React.FC = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const signIn = (e: React.FormEvent<HTMLFormElement>) => {
+  const signIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
-      .then((signInUser) => {
-        const user = signInUser.user;
-        console.log(user);
-        if (role === "student") {
-          router.push("/dashboard");
-        } else if (role === "counsellor") {
-          router.push("/counsellorDashboard");
-        } else {
-          console.log("no role setted");
-        }
-        console.log(`User is a ${role}`);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error.message);
-        setTimeout(() => {
-          setLoading(false);
-        }, 3000);
-      });
+    try {
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const userId = user.uid;
+      const role = await fetchUserRole(userId);
+      if (role === "student") {
+        router.push("/dashboard");
+      } else if (role === "counsellor") {
+        router.push("/counsellorDashboard");
+      }
+      toast.success("Login successful");
+    } catch (err: any) {
+      console.log(err);
+      toast.error(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

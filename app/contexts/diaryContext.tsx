@@ -1,7 +1,7 @@
 "use client";
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { db } from "../firebase";
 
 interface DiaryContextType {
@@ -32,14 +32,12 @@ export const DiaryContextProvider = ({ children }: { children: ReactNode }) => {
       const diaryDoc = await getDoc(diaryDocRef);
       const data = diaryDoc.data();
       if (!data) {
-        console.log("there is no data");
       } else {
         setCurrentMood(data.mood);
         setCurrentNote(data.note);
         setCurrentTitle(data.title);
         setCurrentId(diaryDoc.id);
         setIsEditting(true);
-        console.log(currentId);
       }
       router.push("./mydairy/compose");
     } catch (error) {}

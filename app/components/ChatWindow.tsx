@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 
@@ -31,11 +32,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ activeChat }) => {
       <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((message, index) => (
           <div key={index} className="flex flex-col items-end mb-4">
-            <img
-              src="/path-to-profile-pic.jpg" // Replace with actual path to profile picture
-              alt="Profile"
-              className="w-8 h-8 rounded-full mb-1"
-            />
+                    <Image
+                      src="/path-to-profile-pic.jpg"
+                      alt="profile picture"
+                      className="w-full h-full object-cover rounded-full mb-1"
+                      width={40}
+                      height={40}
+                    />
             <div className="bg-blue-500 text-white p-2 rounded-lg max-w-xs">{message}</div>
           </div>
         ))}

@@ -21,9 +21,9 @@ const PatientsRatingHistogram = () => {
     labels: ['Yes', 'No'],
     datasets: [
       {
-        label: 'Patients\' Rating',
+        label: 'Patients Rating',
         data: [12, 5], // Example data, replace with your own
-        backgroundColor: ['#4caf50', '#f44336'],
+        backgroundColor: ['#2196F3', '#0D47A1'],
       },
     ],
   };
@@ -51,7 +51,7 @@ const PatientsRatingHistogram = () => {
   return (
     <div className='rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4'>
       <div className='flex flex-row'>
-        <h1 className='font-semibold text-lg m-2'>Patients' Rating</h1>
+        <h1 className='font-semibold text-lg m-2'>Patients&apos; Rating</h1>
       </div>
       <hr />
       <div className='mt-4'>

@@ -22,7 +22,7 @@ const page = () => {
         <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6 m-4">
           <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
           <p className="text-gray-600 mb-6">
-            We'd love to hear from you! Please fill out the form below and we’ll
+            We&apos;d love to hear from you! Please fill out the form below and we&apos;ll
             get back to you as soon as possible.
           </p>
           <form>

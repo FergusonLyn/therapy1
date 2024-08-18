@@ -8,6 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
 import CDashboardHeader from "../components/CDashboardHeader";
@@ -162,9 +163,11 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Your Patients Today</h1>
-            <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
-              See All
-            </span>
+            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#appointments">
+              <span className=" hover:text-blue-700">
+                See All
+              </span>
+            </Link>
           </div>
           <hr />
 
@@ -238,9 +241,12 @@ const page = () => {
         <div className="rounded-md bg-white border-2 border-gray-200 shadow-sm m-3 p-4 ">
           <div className="flex flex-row">
             <h1 className="font-semibold text-lg m-2">Session Requests</h1>
-            <span className="ml-auto m-2 text-gray-500 cursor-pointer hover:text-blue-700">
-              See All
-            </span>
+            <Link className="ml-auto m-2 text-gray-500 cursor-pointer" href="/counsellorDashboard/myAppointments#sessions">
+              <span className=" hover:text-blue-700">
+                See All
+              </span>
+            </Link>
+            
           </div>
           <hr />
           {appointmentInfo.slice(0, 2).map((appointment) => (
@@ -250,13 +256,13 @@ const page = () => {
               </div>
               <div className="flex items-center flex-grow justify-center">
                 <div className="flex items-center border-2 border-gray-600 px-2 rounded-full">
-                  <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                     <Image
                       src="/profile.jpg"
                       alt="profile picture"
-                      className="w-full h-full object-cover rounded-md"
-                      width={40} // Set the desired width
-                      height={40} // Set the desired height
+                      className="w-full h-full object-cover rounded-full"
+                      width={40}
+                      height={40}
                     />
                   </div>
                   <p className="text-lg font-semibold ">{appointment.name}</p>

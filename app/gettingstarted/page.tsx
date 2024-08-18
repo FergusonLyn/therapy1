@@ -27,9 +27,8 @@ const gettingStarted = () => {
             <div className='flex flex-col justify-center md:text-left md:items-start'>
                 <h1 className='md:text-4xl sm:text-3xl text-2xl font-bold py-2'>Mental Health Solution</h1>
                 <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque, odio 
-                    laborum. Dignissimos quidem qui quo est inventore non? Quos cumque, 
-                    assumenda commodi dicta eos libero eius voluptas labore enim quia.
+                  Discover a safe and supportive space to manage your mental health. Join our community and access personalized counseling, insightful resources, and 
+                  round-the-clock support to help you navigate your journey. Let us work together towards a healthier mind and a brighter future.
                 </p>
                 <RegisterButton />
                 

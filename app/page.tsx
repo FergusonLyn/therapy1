@@ -160,7 +160,7 @@ export default function Home() {
             <p className="text-sm font-normal mb-4">
             Our platform offers a comprehensive suite of services tailored to your needs. 
             From one-on-one counseling sessions and wellness workshops to an AI companion ready to chat 24/7, 
-            we're here to ensure your university experience is fulfilling and stress-free.
+            we&apos;re here to ensure your university experience is fulfilling and stress-free.
             </p>
           </div>
           <div className="hidden md:block w-1/4"></div>

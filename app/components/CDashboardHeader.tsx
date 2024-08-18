@@ -117,7 +117,7 @@ const CDashboardHeader = () => {
               <Link href="./">Dashboard</Link>
             </li>
             <li className="py-2 md:py-0">
-              <Link href="">Appointments</Link>
+              <Link href="/counsellorDashboard/myAppointments">Appointments</Link>
             </li>
             <li className="py-2 md:py-0">
               <Link href="/counsellorDashboard/chats">Chats</Link>

@@ -1,14 +1,14 @@
 "use client";
+import { Loader } from "@/app/components/Loader";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "next/navigation";
-import { doc, getDoc } from "firebase/firestore";
-import { Loader } from "@/app/components/Loader";
-import toast from "react-hot-toast";
 
 interface User {
   studentNumber: number;

@@ -147,9 +147,9 @@ const page = () => {
             <Image
               src={counsellorImage || ""}
               alt="Technical Support"
-              width={105}
-              height={105}
-              className="object-cover "
+              width={144}
+              height={144}
+              className="object-cover rounded-full w-full h-full "
             />
           </div>
           <div className="flex flex-col p-2">

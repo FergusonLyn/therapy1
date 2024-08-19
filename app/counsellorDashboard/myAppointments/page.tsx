@@ -98,7 +98,7 @@ const Page = () => {
           <hr />
 
           {/* Scrollable content area */}
-          <div className="overflow-y-auto  scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+          <div className="overflow-y-auto h-[350px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             {appointmentInfo.map((appointment) => (
               <div
                 key={appointment.id}

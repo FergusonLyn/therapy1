@@ -1,14 +1,15 @@
 "use client";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Link from "next/link";
-import React, { useState, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import React, { ChangeEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
-import { auth, db, storage } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { setDoc, doc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
 import { Loader } from "../../components/Loader";
+import { auth, db, storage } from "../../firebase";
 
 const RegisterCounsellor = () => {
   const [fullName, setFullName] = useState("");
@@ -62,20 +63,20 @@ const RegisterCounsellor = () => {
         image: downloadURL,
         about,
       });
-      setTimeout(() => {
-        setLoading(false);
-        alert("Counsellor signed up successfully!");
-      }, 3000);
+
+      setLoading(false);
+      toast.success("Counsellor created successfully");
+
       resetFormFields();
-      console.log("Resetting form fields...");
-      console.log("Signup successful! Redirecting...");
+
       router.push("/gettingstarted/login");
     } catch (error) {
       console.error(error);
-      setTimeout(() => {
-        setLoading(false);
-        alert(error);
-      }, 3000);
+
+      setLoading(false);
+      toast.error(
+        "Counsellor couldnt be created check your internet connection"
+      );
       resetFormFields();
     }
   };

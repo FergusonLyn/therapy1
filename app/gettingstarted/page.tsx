@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { CiLogin } from "react-icons/ci";
-import { MdPersonAddAlt1 } from "react-icons/md";
 import Image from "next/image";
 import GetStartedHeader from '../components/GetStartedHeader';
 import RegisterButton from '../components/RegisterButton';
 
 
-const gettingStarted = () => {
+const GettingStarted = () => {
     
 
   return (
@@ -39,4 +36,4 @@ const gettingStarted = () => {
   )
 }
 
-export default gettingStarted
+export default GettingStarted

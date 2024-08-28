@@ -53,7 +53,6 @@ const Login: React.FC = () => {
       }
       toast.success("Login successful");
     } catch (err: any) {
-      console.log(err);
       toast.error(err.message);
     } finally {
       setLoading(false);

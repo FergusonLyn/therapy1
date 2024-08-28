@@ -1,19 +1,19 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import "react-widgets/styles.css";
-import Link from "next/link";
-import Image from "next/image";
-import DashboardHeader from "../components/DashboardHeader";
-import Chatbot from "../components/Chatbot";
-import { CounsellorContext } from "../contexts/counsellorContext";
-import { db, auth } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { userAuthContext } from "../contexts/userContext";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import "react-widgets/styles.css";
+import Chatbot from "../components/Chatbot";
+import DashboardHeader from "../components/DashboardHeader";
 import { Loader } from "../components/Loader";
+import { CounsellorContext } from "../contexts/counsellorContext";
+import { userAuthContext } from "../contexts/userContext";
+import { auth, db } from "../firebase";
 
 const Page = () => {
   const [loading, setLoading] = useState(true);
-  const [getQuote, setGetQuote] = useState<any>({});
+  const [quote, setQuote] = useState<any>({});
   const [appointmentInfo, setAppointmentInfo] = useState<any>([]);
 
   const { counsellors, getCounsellorName } = useContext(CounsellorContext);
@@ -64,14 +64,29 @@ const Page = () => {
 
   useEffect(() => {
     const fetchRandomQuote = async () => {
-      const response = await fetch("https://type.fit/api/quotes");
-      const quotes = await response.json();
-      const randomIndex = Math.floor(Math.random() * quotes.length);
-      const randomQuote = quotes[randomIndex];
-      setGetQuote(randomQuote);
-      setLoading(false);
+      const url =
+        "https://famous-quotes4.p.rapidapi.com/random?category=all&count=1";
+      const options = {
+        method: "GET",
+        headers: {
+          "x-rapidapi-key":
+            "1e26393bf3msh68cf849779f165cp175843jsn1c9abdcd730d",
+          "x-rapidapi-host": "famous-quotes4.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const result = await response.json();
+        setQuote(result[0]); // The API returns an array, we take the first item
+      } catch (error) {
+        console.error(error);
+      }
     };
-    setLoading(true);
+
     fetchRandomQuote();
   }, []);
 
@@ -97,13 +112,13 @@ const Page = () => {
               </h3>
               {counsellors.slice(0, 2).map((counsellor) => (
                 <div className="bg-white p-10 shadow-lg rounded-md md:h-[270px] mt-4 grid grid-cols-2 gap-4">
-                  <div className="h-auto w-auto flex rounded-md items-center justify-center">
+                  <div className=" flex rounded-md items-center justify-center">
                     <Image
                       src={counsellor.data.image}
                       alt={counsellor.data.name}
-                      className="w-full h-full object-cover"
+                      className=" object-cover"
                       width={150}
-                      height={150}
+                      height={80}
                     />
                   </div>
                   <div>
@@ -111,7 +126,9 @@ const Page = () => {
                       {counsellor.data.name}
                     </h1>
                     <p className="font-normal text-xs">
-                      {counsellor.data.about.length > 120 ? `${counsellor.data.about.substring(0, 120)}...` : counsellor.data.about}
+                      {counsellor.data.about.length > 120
+                        ? `${counsellor.data.about.substring(0, 120)}...`
+                        : counsellor.data.about}
                     </p>
                   </div>
                 </div>
@@ -135,7 +152,10 @@ const Page = () => {
                 <hr />
 
                 {appointmentInfo.map((appointment: any) => (
-                  <div key={appointment.id} className="flex flex-col gap-2 p-2 my-2">
+                  <div
+                    key={appointment.id}
+                    className="flex flex-col gap-2 p-2 my-2"
+                  >
                     <div className="flex flex-row justify-between">
                       <h2>
                         You have an appointment with{" "}
@@ -152,10 +172,11 @@ const Page = () => {
               <div className="rounded-md bg-white border-2 p-4 border-gray-200 shadow-sm m-3">
                 <div className="flex justify-center items-center h-full">
                   <div className="quote text-center">
-                    <h1 className="font-semibold text-xl">
-                    &quot;{getQuote.text}&quot;<br />
+                    <h1 className="font-medium text-xl">
+                      &quot;{quote.text}&quot;
+                      <br />
                       <span className="text-lg text-center">
-                        Author: {getQuote.author}
+                        Author: {quote.author}
                       </span>
                     </h1>
                   </div>

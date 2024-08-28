@@ -20,7 +20,7 @@ import { CounsellorContext } from "../contexts/counsellorContext";
 import { userAuthContext } from "../contexts/userContext";
 import { auth, db } from "../firebase";
 
-const page = () => {
+const Page = () => {
   const context = useContext(userAuthContext);
   const { getCounsellorImage } = useContext(CounsellorContext);
   const [counsellorImage, setCounsellorImage] = useState<string | null>(null);
@@ -372,4 +372,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

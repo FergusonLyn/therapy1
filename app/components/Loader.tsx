@@ -1,9 +1,5 @@
-import React from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export const Loader = () => {
-  return (
-    <>
-      <div className="spinner"></div>
-    </>
-  );
+  return <ClipLoader color="#2b34ff" size={30} speedMultiplier={0} />;
 };

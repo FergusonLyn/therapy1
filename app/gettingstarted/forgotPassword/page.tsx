@@ -1,25 +1,12 @@
 "use client";
-import { useState, ChangeEvent } from "react";
-import Link from "next/link";
-import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
+import Link from "next/link";
+import { useState } from "react";
+import { auth } from "../../firebase";
 
 const Password = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
-  // const resetPassword = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   sendPasswordResetEmail(auth, email)
-  //     .then(() => {
-  //       setMessage("Password reset email sent! Please check your inbox.");
-  //       alert("email sent successfullys");
-  //     })
-  //     .catch((err) => {
-  //       alert(err);
-  //       setMessage("");
-  //     });
-  // };
   const resetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {

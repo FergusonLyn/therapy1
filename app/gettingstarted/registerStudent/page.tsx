@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { auth, db } from "../../firebase";
@@ -38,18 +39,15 @@ const RegisterStudent = () => {
         });
       })
       .then(() => {
-        setTimeout(() => {
-          setLoading(false);
-          alert("User signed up successfully!");
-        }, 3000);
+        setLoading(false);
+        toast.success("user signed up successfully");
+
         router.push("/gettingstarted/login");
       })
       .catch((error) => {
         console.error(error);
-        setTimeout(() => {
-          setLoading(false);
-          alert(error.message);
-        }, 3000);
+        toast.error("user couldnt sign up check your internet connection");
+        setLoading(false);
       });
   };
 

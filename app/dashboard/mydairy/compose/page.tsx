@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext} from "react";
 import Link from "next/link";
 import "react-widgets/styles.css";
 import Combobox from "react-widgets/Combobox";
@@ -9,7 +9,7 @@ import { db } from "../../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { DiaryContext } from "@/app/contexts/diaryContext";
 
-const page = () => {
+const Page = () => {
   const { currentMood, currentNote, currentTitle, currentId, isEditting } =
     useContext(DiaryContext);
   const [mood, setMood] = useState(currentMood || "");
@@ -154,4 +154,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

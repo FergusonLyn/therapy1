@@ -110,8 +110,8 @@ const Page = () => {
               <h3 className="text-black text-lg flex justify-between items-center mb-4 font-bold">
                 Your Counselors
               </h3>
-              {counsellors.slice(0, 2).map((counsellor) => (
-                <div className="bg-white p-10 shadow-lg rounded-md md:h-[270px] mt-4 grid grid-cols-2 gap-4">
+              {counsellors.slice(0, 2).map((counsellor,index) => (
+                <div key={index} className="bg-white p-10 shadow-lg rounded-md md:h-[270px] mt-4 grid grid-cols-2 gap-4">
                   <div className=" flex rounded-md items-center justify-center">
                     <Image
                       src={counsellor.data.image}

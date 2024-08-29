@@ -142,7 +142,7 @@ const Page = () => {
           {/* Scrollable content area */}
           <div className="overflow-y-auto h-[350px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             {appointmentInfo.map((appointment) => (
-              <div className="flex items-center justify-between p-4 m-3 rounded-md ">
+              <div key={appointment.id} className="flex items-center justify-between p-4 m-3 rounded-md ">
                 <div className="flex-shrink-0">
                   <p className="text-sm text-gray-400">{appointment.time}</p>
                 </div>

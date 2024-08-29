@@ -17,6 +17,7 @@ const firebaseConfig = {
 const firebaseApiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
 
 const app = initializeApp(firebaseConfig);
+
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
